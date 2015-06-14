@@ -1,0 +1,31 @@
+<div ng-controller="homeCtrl">
+  <tabset justified="true">
+    <tab heading="Url Shortener" ng-controller="shortenerCtrl">
+        <div class="container col-lg-4 col-md-6 col-sm-12" style="margin-top: 15px">
+            <form name="shortener">
+             <fieldset>
+                <div class="row">
+                    <div class="form-group">
+                        <input type="text" ng-model="url" class="form-control" id="nome" placeholder="insert your long url">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <input type="text" ng-model="customization" class="form-control" id="nome" placeholder="customize your url">
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="button" ng-click="get();" class="btn btn-primary">Shorten URL</button>
+                </div>
+             </fieldset>
+            </form>
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-12" style="margin-top: 15px">
+            <div class="well">
+                {{page}}
+            </div>
+        </div>
+    </tab>
+    <tab heading="Statistics">Long Labeled Justified content</tab>
+  </tabset>
+</div>
