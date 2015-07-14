@@ -52,7 +52,7 @@ RUN touch start.sh && \
 	echo '#!/bin/bash' >> start.sh && \
 	echo 'redis-server &' >> start.sh && \
 	echo '/usr/sbin/apache2ctl -D FOREGROUND' >> start.sh && \
-	echo '/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar target/url-shortener-1.0.jar' >> start.sh && \
+	#echo '/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar target/url-shortener-1.0.jar' >> start.sh && \
 	chmod 777 start.sh	
 
 # 80=Apache, 4567=java, 6379=redis-server
