@@ -47,16 +47,17 @@ WORKDIR /code
 #RUN ["mvn", "verify"]
 RUN ["mvn", "install"]
 
+WORKDIR /
 # Create a start bash script
 RUN touch start.sh && \
 	echo '#!/bin/bash' >> start.sh && \
 	echo 'redis-server &' >> start.sh && \
 	echo '/usr/sbin/apache2ctl -D FOREGROUND' >> start.sh && \
-	echo '/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar target/url-shortener-1.0.jar' >> start.sh && \
+	echo '/usr/lib/jvm/java-8-oracle/bin/java -jar code/target/url-shortener-1.0.jar' >> start.sh && \
 	chmod 777 start.sh	
 
 # 80=Apache, 4567=java, 6379=redis-server
 EXPOSE 80 4567 6379
 
 # Run the boot up command
-CMD /bin/bash
+CMD /start.sh
