@@ -11,7 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common
 # Install Oracle Java 8, accept license command is required for non interactive mode
 RUN	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
 	DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:webupd8team/java && \
-	#apt-get update && \
+	apt-get update && \
 	echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections &&\
 	DEBIAN_FRONTEND=noninteractive apt-get install -y oracle-java8-installer
 
