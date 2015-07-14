@@ -59,12 +59,12 @@ RUN curl -fsSL http://archive.apache.org/dist/maven/maven-3/3.3.3/binaries/apach
 ENV MAVEN_HOME /usr/share/maven
 
 #Compile JAR
-ADD pom.xml /code/pom.xml 
+ADD server/pom.xml /code/pom.xml 
 RUN ["mvn", "dependency:resolve"] 
 RUN ["mvn", "verify"]
  
 # Adding source, compile and package into a fat jar
-ADD src /code/src 
+ADD server/src /code/src 
 RUN ["mvn", "install"]
 
 # Create a start bash script
