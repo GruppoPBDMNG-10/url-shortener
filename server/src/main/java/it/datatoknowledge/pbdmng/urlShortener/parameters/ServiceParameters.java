@@ -27,8 +27,7 @@ public class ServiceParameters {
 		// TODO Auto-generated constructor stub
 		properties = new Properties();
 		try {
-			StringBuffer filePath = new StringBuffer(System.getenv("SystemDrive"));
-			filePath.append("/userTemp/conf/conf.conf");
+			StringBuffer filePath = new StringBuffer("/userTemp/conf/conf.conf");
 			properties.load(new FileInputStream(filePath.toString()));
 			isAvailable = true;
 		} catch (IOException e) {
