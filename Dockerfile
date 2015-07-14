@@ -43,8 +43,8 @@ ENV MAVEN_HOME /usr/share/maven
 ADD server/pom.xml /code/pom.xml 
 ADD server/src /code/src 
 WORKDIR /code
-RUN ["mvn", "dependency:resolve"] 
-RUN ["mvn", "verify"]
+#RUN ["mvn", "dependency:resolve"] 
+#RUN ["mvn", "verify"]
 RUN ["mvn", "install"]
 
 # Create a start bash script
