@@ -1,27 +1,45 @@
-angular.module('shortener')
+angular.module('shortenerCtrl', [])
 
-.controller('shortenerCtrl',
-            ['$rootScope', '$scope', '$http', '$location',
-             function ($rootScope, $scope, $http, $location){
-	
-    //qui tutte le funzioni per la pagina home
-
-    $scope.get = function(){
-      //var url = "https://api.thumbalizr.com/?url="+ $scope.url +"&width=250"
-      var json = '{url :\''+ $scope.url + '\'}';
-      var url = 'http://localhost:4567/tiny';
-      alert(url);
-      $http.post(url, json)
-        .success(
-          function(response){
-            $scope.page = response.urlTiny;
-          })
-        .error(
-          function(response){
-       		alert('error, url: ' + $scope.url);
-          }
-        )
-      ;
+.controller('shortenerCtrl', ['$scope', '$http', 'Shortener',
+  function($scope, $http, Shortener){
+    
+	/**
+	 * Regex expression to check longUrl field.
+	 */
+    $scope.longUrlRegex = /^(http[s]?:\/\/(www\.)?|ftp:\/\/(www\.)?|(www\.)?){1}([0-9A-Za-z-\.@:%_\‌​+~#=]+)+((\.[a-zA-Z]{2,3})+)(\/(.)*)?(\?(.)*)?$/;
+    
+    /**
+     * Regex expression to check customUrl field.
+     */
+    $scope.customUrlRegex = /^([0-9a-zA-Z-]{0,30})$/;
+    
+    /**
+     * Object urlDetails.
+     */
+    $scope.urlDetails = {
+      'url' : '',
+      'custom' : '',
+      'tiny' : '',
+      'thumb' : ''
+    }
+    
+    /**
+     * Function to execute after http request.
+     */
+    var callback = function(response){
+      alert('risposta');
+    }
+    
+    
+    /**
+     * Calls the service "Shortener" to make an HTTP request to create tiny.
+     */
+    $scope.makeTinyUrl = function(){
+      if ($scope.urlDetails.custom == '') {
+        Shortener.tinyUrl($scope.urlDetails, callback);
+      } else {
+        Shortener.tinyUrl($scope.urlDetails, callback);
+      }
     }
 	
 }]);
