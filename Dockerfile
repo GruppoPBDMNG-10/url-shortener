@@ -41,11 +41,10 @@ ENV MAVEN_HOME /usr/share/maven
 
 #Compile JAR
 ADD server/pom.xml /code/pom.xml 
+ADD server/src /code/src 
+WORKDIR /code
 RUN ["mvn", "dependency:resolve"] 
 RUN ["mvn", "verify"]
- 
-# Adding source, compile and package into a fat jar
-ADD server/src /code/src 
 RUN ["mvn", "install"]
 
 # Create a start bash script
