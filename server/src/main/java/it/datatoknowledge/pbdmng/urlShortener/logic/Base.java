@@ -66,11 +66,6 @@ public abstract class Base {
 		String route = serviceParameters.getValue(Parameters.ROUTE_ALL,
 				Parameters.DEFAULT_ROUTE_ALL);
 		
-		before((request, response) -> {
-
-			response.header(ACCES_CONTROLL_ALLOW_ORIGIN, Constants.ASTERISK);
-		});
-
 		options(route,
 				(request, response) -> {
 
@@ -90,9 +85,10 @@ public abstract class Base {
 
 					return null;
 				});
-
+		before((request, response) -> {
+			response.header(ACCES_CONTROLL_ALLOW_ORIGIN, Constants.ASTERISK);
+		});
 		
-
 		// get("/",
 		// (request, response) -> {
 		//
