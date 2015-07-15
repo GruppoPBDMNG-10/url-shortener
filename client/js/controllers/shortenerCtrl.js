@@ -27,7 +27,15 @@ angular.module('shortenerCtrl', [])
      * Function to execute after http request.
      */
     var callback = function(response){
-      alert('risposta');
+    	if(response){
+    		if(response.result.returnCode = 'OK'){
+    			$scope.urlDetails = response.urlTiny;
+    		} else {
+    			alert('Contenuto non valito');
+    		}
+    	} else {
+			alert('404 - Not found');
+    	}
     }
     
     
