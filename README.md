@@ -5,6 +5,10 @@ git clone https://github.com/GruppoPBDMNG-10/url-shortener.git
 
 docker build -t gruppopbdmng-10/url-shortener url-shortener
 
-##AngularJS App
+docker run -d -p 8080:80 -p 4567:4567 --name url-shortener gruppopbdmng-10/url-shortener /start.ch
 
-docker run -d -p 9001:80 --name url-shortener-client gruppopbdmng-10/url-shortener /usr/sbin/apache2ctl -D FOREGROUND
+#AngularJS APP
+127.0.0.1:8080 (Map the port in virtualbox)
+
+#Web Services
+127.0.0.1:4567 (Map the port in virtualbox)
