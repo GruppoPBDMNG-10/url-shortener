@@ -1,7 +1,8 @@
 package it.datatoknowledge.pbdmng.urlShortener.logic;
 
 import static spark.Spark.options;
-import static spark.Spark.get;
+import static spark.Spark.before;
+
 import it.datatoknowledge.pbdmng.urlShortener.parameters.ServiceParameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
@@ -20,6 +21,8 @@ public abstract class Base {
 	private final static String ACCESS_REQUEST_METHOD = "Access-Control-Request-Method";
 	private final static String ACCESS_ALLOW_METHODS = "Access-Control-Allow-Methods";
 
+	private final static String ACCES_CONTROLL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+
 	protected Base() {
 		logger = Logger.getLogger(this.getClass());
 		loggingId = this.getClass().getSimpleName();
@@ -33,16 +36,16 @@ public abstract class Base {
 	protected void error(Object... messages) {
 		logger.error(toLog(messages));
 	}
-	
-	protected void error(Throwable t, Object...messages) {
+
+	protected void error(Throwable t, Object... messages) {
 		logger.error(toLog(messages), t);
 	}
 
 	protected void debug(Object... messages) {
 		logger.debug(toLog(messages));
 	}
-	
-	private String toLog(Object...messages) {
+
+	private String toLog(Object... messages) {
 		StringBuffer buffer = new StringBuffer();
 		for (Object obj : messages) {
 			if (obj != null) {
@@ -60,8 +63,14 @@ public abstract class Base {
 	 */
 	protected void setUp() {
 
-		String route = serviceParameters.getValue(Parameters.ROUTE_ALL, Parameters.DEFAULT_ROUTE_ALL);
+		String route = serviceParameters.getValue(Parameters.ROUTE_ALL,
+				Parameters.DEFAULT_ROUTE_ALL);
 		
+		before((request, response) -> {
+
+			response.header(ACCES_CONTROLL_ALLOW_ORIGIN, Constants.ASTERISK);
+		});
+
 		options(route,
 				(request, response) -> {
 
@@ -81,12 +90,14 @@ public abstract class Base {
 
 					return null;
 				});
-		
-		get("/",
-				(request, response) -> {
 
-					response.redirect("http://localhost/index.html");
-					return null;
-				});
+		
+
+		// get("/",
+		// (request, response) -> {
+		//
+		// response.redirect("http://localhost/index.html");
+		// return null;
+		// });
 	}
 }
