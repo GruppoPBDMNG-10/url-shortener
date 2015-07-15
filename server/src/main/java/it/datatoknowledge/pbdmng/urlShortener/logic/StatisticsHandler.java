@@ -8,16 +8,14 @@ import it.datatoknowledge.pbdmng.urlShortener.bean.url.IpAgentStatistics;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.IpStatistics;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.Statistics;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlResponse;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponseCode;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOTransferKey;
-import it.datatoknowledge.pbdmng.urlShortener.dao.jedis.Keys;
 import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Utility;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponse;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponseCode;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOTransferKey;
+import it.datatoknowledge.pdbmng.urlShortener.dao.jedis.DAOJedis;
+import it.datatoknowledge.pdbmng.urlShortener.dao.jedis.Keys;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -214,7 +212,7 @@ public class StatisticsHandler extends Base implements CommonService {
 			String ip, String userAgent, Date dateFrom, Date dateTo) {
 		info(loggingId, "Process with date");
 		DAOResponse result = null;
-		DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
+		DAOJedis dao = new DAOJedis();
 		if (ip != null) {
 			if (userAgent != null) {
 				result = dao.getStatisticsDateIpUserAgent(url, from, to,
@@ -236,7 +234,7 @@ public class StatisticsHandler extends Base implements CommonService {
 			String ip, String userAgent) {
 		info(loggingId, "Process without date");
 		DAOResponse result = null;
-		DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
+		DAOJedis dao = new DAOJedis();
 		if (ip != null) {
 			if (userAgent != null) {
 				result = dao.getStatisticsIpUserAgent(url, from, to, ip,

@@ -4,14 +4,12 @@
 package it.datatoknowledge.pbdmng.urlShortener.logic;
 
 import static spark.Spark.get;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
-import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
 import java.util.Date;
 
+import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponse;
+import it.datatoknowledge.pdbmng.urlShortener.dao.jedis.DAOJedis;
 import spark.Request;
 
 /**
@@ -41,7 +39,7 @@ public class RequestHandler extends Base implements CommonService{
 				String userAgent = clientRequest.userAgent();
 				String ip = clientRequest.ip();
 				Date timestamp = new Date();
-				DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
+				DAOJedis dao = new DAOJedis();
 				DAOResponse response = dao.getOrigin(url, ip, userAgent, timestamp);
 				switch (response.getResultCode()) {
 				case UPDATED:

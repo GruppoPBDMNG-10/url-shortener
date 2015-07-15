@@ -8,14 +8,12 @@ import static spark.Spark.post;
 import it.datatoknowledge.pbdmng.urlShortener.bean.Result;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlRequest;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlResponse;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponseCode;
 import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponse;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponseCode;
+import it.datatoknowledge.pdbmng.urlShortener.dao.jedis.DAOJedis;
 
 import java.util.Date;
 
@@ -70,7 +68,7 @@ public class UrlGenerationHandler extends CommonLogic implements CommonService {
 			if (checkUrl(originalUrl)) {
 				int maxAttemps = Integer.parseInt(serviceParameters.getValue(
 						"max_attemps", "5"));
-				DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
+				DAOJedis dao = new DAOJedis();
 				DAOResponse responseDAO = new DAOResponse();
 				DAOResponseCode resultCode = DAOResponseCode.NOT_INSERTED;
 				responseDAO.setResultCode(resultCode);

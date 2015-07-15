@@ -1,4 +1,4 @@
-package it.datatoknowledge.pbdmng.urlShortener.geoLocation.bean;
+package it.datatoknowledge.pdbmng.urlShortener.geoLocation.bean;
 
 public class GeoSubdivision {
 	

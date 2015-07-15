@@ -20,7 +20,6 @@ public abstract class CommonLogic extends Base{
 		if (custom != null) {
 			//TODO: CHECK FOR CUSTOM
 			info(loggingId, "Desired custom:", custom);
-			
 			result = custom;
 		} else {
 			result = generateTiny(url);

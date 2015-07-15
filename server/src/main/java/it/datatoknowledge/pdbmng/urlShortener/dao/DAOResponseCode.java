@@ -1,4 +1,4 @@
-package it.datatoknowledge.pbdmng.urlShortener.dao;
+package it.datatoknowledge.pdbmng.urlShortener.dao;
 
 public enum DAOResponseCode {
 

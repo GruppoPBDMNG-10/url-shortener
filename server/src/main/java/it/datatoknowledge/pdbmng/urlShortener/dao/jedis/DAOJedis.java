@@ -1,13 +1,13 @@
-package it.datatoknowledge.pbdmng.urlShortener.dao.jedis;
+package it.datatoknowledge.pdbmng.urlShortener.dao.jedis;
 
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponseCode;
-import it.datatoknowledge.pbdmng.urlShortener.dao.DAOTransferKey;
-import it.datatoknowledge.pbdmng.urlShortener.geoLocation.GeoLocationService;
 import it.datatoknowledge.pbdmng.urlShortener.logic.Base;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Utility;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOFactory;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponse;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponseCode;
+import it.datatoknowledge.pdbmng.urlShortener.dao.DAOTransferKey;
+import it.datatoknowledge.pdbmng.urlShortener.geoLocation.GeoLocationService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Response;
 
-public class DAOJedis extends Base implements DAOInterface{
+public class DAOJedis extends Base{
 
 	private Jedis conn;
 	
@@ -32,8 +32,8 @@ public class DAOJedis extends Base implements DAOInterface{
 
 	private final static String CLICKS_LIST = "CLICKS_LIST:";
 
-	public DAOJedis(Jedis jedisConn) {
-		conn = jedisConn;
+	public DAOJedis() {
+		conn = DAOFactory.getIstance();
 		utility = new Utility();
 	}
 
