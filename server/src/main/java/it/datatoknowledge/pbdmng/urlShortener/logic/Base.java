@@ -83,7 +83,7 @@ public abstract class Base {
 								accessControlRequestMethod);
 					}
 
-					return null;
+					return 'OK';
 				});
 		before((request, response) -> {
 			response.header(ACCES_CONTROLL_ALLOW_ORIGIN, Constants.ASTERISK);
