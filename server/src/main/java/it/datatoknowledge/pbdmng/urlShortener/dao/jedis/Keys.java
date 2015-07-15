@@ -1,9 +1,7 @@
-package it.datatoknowledge.pdbmng.urlShortener.dao.jedis;
+package it.datatoknowledge.pbdmng.urlShortener.dao.jedis;
 
 public class Keys {
 
-
-	
 	public final static String LONG_URL = "LONG_URL";
 	
 	public final static String TIMESTAMP = "TIMESTAMP";

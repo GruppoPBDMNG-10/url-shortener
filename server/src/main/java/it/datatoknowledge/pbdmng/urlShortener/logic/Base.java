@@ -1,7 +1,6 @@
 package it.datatoknowledge.pbdmng.urlShortener.logic;
 
 import static spark.Spark.options;
-import static spark.Spark.get;
 import it.datatoknowledge.pbdmng.urlShortener.parameters.ServiceParameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
@@ -82,11 +81,11 @@ public abstract class Base {
 					return null;
 				});
 		
-		get("/",
-				(request, response) -> {
-
-					response.redirect("http://localhost/index.html");
-					return null;
-				});
+//		get("/",
+//				(request, response) -> {
+//
+//					response.redirect("http://localhost/index.html");
+//					return null;
+//				});
 	}
 }

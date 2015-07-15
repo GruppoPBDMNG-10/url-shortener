@@ -1,12 +1,12 @@
-package it.datatoknowledge.pdbmng.urlShortener.geoLocation;
+package it.datatoknowledge.pbdmng.urlShortener.geoLocation;
 
 import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.logic.Base;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
-import it.datatoknowledge.pdbmng.urlShortener.geoLocation.bean.GeoCountry;
-import it.datatoknowledge.pdbmng.urlShortener.geoLocation.bean.GeoLocation;
-import it.datatoknowledge.pdbmng.urlShortener.geoLocation.bean.GeoSubdivision;
-import it.datatoknowledge.pdbmng.urlShortener.geoLocation.bean.GeographicInfo;
+import it.datatoknowledge.pbdmng.urlShortener.geoLocation.bean.GeoCountry;
+import it.datatoknowledge.pbdmng.urlShortener.geoLocation.bean.GeoLocation;
+import it.datatoknowledge.pbdmng.urlShortener.geoLocation.bean.GeoSubdivision;
+import it.datatoknowledge.pbdmng.urlShortener.geoLocation.bean.GeographicInfo;
 
 import java.io.File;
 import java.io.IOException;
