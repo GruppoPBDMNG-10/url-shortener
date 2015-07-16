@@ -1,31 +1,48 @@
-<div ng-controller="homeCtrl">
-  <tabset justified="true">
-    <tab heading="Url Shortener" ng-controller="shortenerCtrl">
-        <div class="container col-lg-4 col-md-6 col-sm-12" style="margin-top: 15px">
-            <form name="shortener">
-             <fieldset>
-                <div class="row">
-                    <div class="form-group">
-                        <input type="text" ng-model="url" class="form-control" id="nome" placeholder="insert your long url">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <input type="text" ng-model="customization" class="form-control" id="nome" placeholder="customize your url">
-                    </div>
-                </div>
-                <div class="row">
-                    <button type="button" ng-click="get();" class="btn btn-primary">Shorten URL</button>
-                </div>
-             </fieldset>
-            </form>
+<div class="containner" style="margin-top: 20px;">
+  <div class="well col-lg-6 col-md-6 col-sm-12">
+    <form name="urlShortener">
+      <fieldset>
+        <div class="form-group">
+          <label for="longUrl">Paste your long URL here:
+            <span ng-show="urlShortener.longUrl.$error.pattern">(not a valid url!)</span>
+          </label>
+          <input
+            id="longUrl"
+            name="longUrl"
+            type="text"
+            ng-model="urlDetails.url"
+            ng-pattern="longUrlRegex"
+            class="form-control"
+            maxlength="255">
         </div>
-        <div class="col-lg-8 col-md-6 col-sm-12" style="margin-top: 15px">
-            <div class="well">
-                {{page}}
-            </div>
+        <div class="form-group">
+          <label for="customUrl">Write your customization here:
+            <span ng-show="urlShortener.customUrl.$error.pattern">(not a valid custom!)</span>
+          </label>
+          <input
+            id="customUrl"
+            name="customUrl"
+            type="text"
+            ng-model="urlDetails.custom"
+            ng-pattern="customUrlRegex"
+            class="form-control"
+            maxlength="30">
         </div>
-    </tab>
-    <tab heading="Statistics">Long Labeled Justified content</tab>
-  </tabset>
+        <div class="form-inline">
+          <button ng-disabled="
+              urlShortener.longUrl.$error.pattern ||
+              urlShortener.customUrl.$error.pattern ||
+              urlDetails.url == ''" class="btn btn-primary pull-right" ng-click="makeTinyUrl();">Shorten URL</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-12">
+    <div ng-show="urlDetails.urlTiny != ''" class="well text-center">
+      <a href="{{urlDetails.urlTiny}}" target="_blank">{{urlDetails.urlTiny}}</a>
+    </div>
+    <div ng-show="urlDetails.thumb != ''" class="text-center">
+      <img src="{{urlDetails.thumb}}" alt="url thumbnail">
+    </div>
+  </div>
 </div>
