@@ -3,7 +3,7 @@
     <form name="urlShortener">
       <fieldset>
         <div class="form-group">
-          <label for="longUrl">Paste youe long URL here:
+          <label for="longUrl">Paste your long URL here:
             <span ng-show="urlShortener.longUrl.$error.pattern">(not a valid url!)</span>
           </label>
           <input
@@ -38,11 +38,11 @@
     </form>
   </div>
   <div class="col-lg-6 col-md-6 col-sm-12">
-    <div ng-show="urlDetails.tiny != ''" class="well text-center">
-      {{urlDetails.tiny}}
+    <div ng-show="urlDetails.urlTiny != ''" class="well text-center">
+      <a href="{{urlDetails.urlTiny}}" target="_blank">{{urlDetails.urlTiny}}</a>
     </div>
     <div ng-show="urlDetails.thumb != ''" class="text-center">
-      <img src="" alt="url thumbnail">
+      <img src="{{urlDetails.thumb}}" alt="url thumbnail">
     </div>
   </div>
 </div>
