@@ -50,8 +50,7 @@ angular.module('shortenerCtrl', [])
     			alert('Contenuto non valito');
     		}
     	} else {
-    		$scope.urlDetails.thumb = 'https://api.thumbalizr.com/?url='+ $scope.urlDetails.url +'&width=250';
-			alert('404 - Not found');
+    		alert('404 - Not found');
     	}
     }
     

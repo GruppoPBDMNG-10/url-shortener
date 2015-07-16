@@ -1,4 +1,51 @@
-<div class="containner" style="margin-top: 20px;">
+<div class="container" style="margin-top: 20px;">
+
+	<div class="col-lg-4 col-md-6 col-sm-12">
+		<div class="well">
+			<form name="urlShortener">
+				<fieldset>
+					<div class="form-group">
+						<input id="urlTiny" name="urlTiny" type="text" ng-model="urlDetails.urlTiny"
+							class="form-control" placeholder="write your url tiny"
+							maxlength="255">
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary pull-right" ng-click="statistics();">View Stat</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="col-lg-8 col-md-6 col-sm-12">
+		<div ng-show="urlDetails.url" class="well text-center">
+			<a href="{{urlDetails.url}}" target="_blank">{{urlDetails.url}}</a>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12">
+		<div ng-show="urlDetails.statistics.clicks" class="panel panel-default">
+			<div class="panel-heading">Clicks</div>
+			<div class="panel-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>IP</th>
+							<th>Date</th>
+							<th>Browser</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="click in urlDetails.statistics.clicks | orderBy:'timestamp'">
+							<td>{{click.ip}}</td>
+							<td>{{click.timestamp| date:'yyyy-MM-dd HH:mm'}}</td>
+							<td>{{click.userAgent}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- 
 	<div class="col-lg-3 col-md-6 col-sm-12 ">
 		<div class="panel panel-default">
 			<div class="panel-heading">Browser</div>
@@ -16,7 +63,8 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Map</div>
 			<div class="panel-body">
-				<div id="world-map" sclass="col-lg-12 col-md-12 col-sm-12" style="height: 400px"></div>
+				<div id="world-map" sclass="col-lg-12 col-md-12 col-sm-12"
+					style="height: 400px"></div>
 				<script>
 					$(function() {
 						$('#world-map').vectorMap();
@@ -25,28 +73,5 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="col-lg-12 col-md-12 col-sm-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">Clicks</div>
-			<div class="panel-body">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>IP</th>
-							<th>Date</th>
-							<th>Browser</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="click in statistics.clicks | orderBy:'timestamp'">
-							<td>{{click.ip}}</td>
-							<td>{{click.timestamp| date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
-							<td>{{click.userAgent}}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+	-->
 </div>

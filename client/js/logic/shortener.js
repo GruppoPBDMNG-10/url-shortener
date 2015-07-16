@@ -17,17 +17,12 @@ angular.module('logic')
                 var url = 'http://localhost:4567/tiny';
                 $http.post(url, data).success(callback).error(callback);
             }
-        }
-    ]
-)
-
-/**
- * Service to get statistics
- */
-.service('Statistics',
-    ['$http',
-        function ($http) {
             
+
+	        this.statistics = function(data, callback) {
+	            var url = 'http://localhost:4567/statistics?tiny='+ data;
+	            $http.get(url).success(callback).error(callback);
+	        }
         }
     ]
 );
