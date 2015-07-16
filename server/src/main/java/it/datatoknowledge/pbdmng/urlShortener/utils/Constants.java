@@ -20,5 +20,7 @@ public class Constants {
 	
 	public final static String DATE_PATTERN_ISO = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 	
+	public final static String ASTERISK = "*";
+	
 
 }
