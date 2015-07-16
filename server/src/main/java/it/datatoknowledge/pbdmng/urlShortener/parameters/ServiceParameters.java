@@ -7,6 +7,7 @@ import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Properties;
 
@@ -19,6 +20,15 @@ public class ServiceParameters {
 	private static Properties properties;
 	private static ServiceParameters serviceParameters;
 	private static boolean isAvailable = false;
+	private final static String[] TRUE = {
+		"true",
+		"TRUE",
+		"1",
+		"OK",
+		"ok",
+		"yes",
+		"YES"
+	};
 
 	/**
 	 * 
@@ -27,7 +37,7 @@ public class ServiceParameters {
 		// TODO Auto-generated constructor stub
 		properties = new Properties();
 		try {
-			StringBuffer filePath = new StringBuffer("C:/userTemp/conf/conf.conf");
+			StringBuffer filePath = new StringBuffer("/userTemp/conf/conf.conf");
 			properties.load(new FileInputStream(filePath.toString()));
 			isAvailable = true;
 		} catch (IOException e) {
@@ -52,6 +62,11 @@ public class ServiceParameters {
 
 	public String getValue(String key, String defaultValue) {
 		return properties.getProperty(key, defaultValue);
+	}
+	
+	public boolean getValue(String key, boolean defaultValue) {
+		String value = getValue(key, String.valueOf(defaultValue));
+		return (Arrays.asList(TRUE).contains(value));
 	}
 	
 	public LinkedHashMap<String, Object> getValue(String key, LinkedHashMap<String, Object> defaultValue) {
