@@ -18,6 +18,9 @@ RUN	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
 # Install curl utility just for testing
 RUN apt-get update && \
 	apt-get install -y curl
+	
+#Install nano - file editor
+RUN apt-get install nano
 
 # Install Redis-Server
 RUN apt-get install -y redis-server
