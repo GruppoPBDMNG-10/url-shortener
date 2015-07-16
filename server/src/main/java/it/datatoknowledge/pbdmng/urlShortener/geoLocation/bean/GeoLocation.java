@@ -1,4 +1,4 @@
-package it.datatoknowledge.pdbmng.urlShortener.geoLocation.bean;
+package it.datatoknowledge.pbdmng.urlShortener.geoLocation.bean;
 
 public class GeoLocation {
 	

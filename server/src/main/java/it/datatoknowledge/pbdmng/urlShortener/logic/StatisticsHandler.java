@@ -8,14 +8,15 @@ import it.datatoknowledge.pbdmng.urlShortener.bean.url.IpAgentStatistics;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.IpStatistics;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.Statistics;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlResponse;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOTransferKey;
+import it.datatoknowledge.pbdmng.urlShortener.dao.jedis.Keys;
 import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Utility;
-import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponse;
-import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponseCode;
-import it.datatoknowledge.pdbmng.urlShortener.dao.DAOTransferKey;
-import it.datatoknowledge.pdbmng.urlShortener.dao.jedis.DAOJedis;
-import it.datatoknowledge.pdbmng.urlShortener.dao.jedis.Keys;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -104,7 +105,9 @@ public class StatisticsHandler extends Base implements CommonService {
 			} else {
 				responseDao = processWithoutDate(tiny, from, to, ip, userAgent);
 			}
-			if (responseDao.getResultCode() == DAOResponseCode.OK) {
+			switch (responseDao.getResultCode()) {
+
+			case OK:
 				resultResponse.setReturnCode(Result.OK_RETURN_CODE);
 				resultResponse.setDescription(Result.OK_DESCRIPTION);
 				Map<String, Object> data = (Map<String, Object>) responseDao
@@ -152,7 +155,7 @@ public class StatisticsHandler extends Base implements CommonService {
 					agentStat.setAgent(userAgent);
 					agentStat.setNumClicks(agentTotalClicks.longValue());
 					agentStat.setClicks(clicks);
-				} else if (ipAgentTotalClicks != null){
+				} else if (ipAgentTotalClicks != null) {
 					clicksMap = (List<Map<String, Object>>) data
 							.get(DAOTransferKey.IP_AGENT_CLICKS);
 					clicks = getClicks(clicksMap);
@@ -163,8 +166,18 @@ public class StatisticsHandler extends Base implements CommonService {
 					ipAgentStat.setIp(ip);
 					ipAgentStat.setClicks(clicks);
 				}
-				Click lastClick = (clicks != null && clicks.size() > BigInteger.ZERO.intValue()) ? clicks.get(BigInteger.ZERO.intValue()) : null;
+				Click lastClick = (clicks != null && clicks.size() > BigInteger.ZERO
+						.intValue()) ? clicks.get(BigInteger.ZERO.intValue())
+						: null;
 				statistics.setLastClick(lastClick);
+				break;
+			case NOT_MAPPED:
+				resultResponse.setReturnCode(Result.NOT_FOUND);
+				resultResponse.setDescription(Result.NOT_FOUND_DESCRIPTION);
+				break;
+			default:
+				break;
+
 			}
 		} else {
 			error(loggingId, "Tiny url not present into query");
@@ -212,7 +225,7 @@ public class StatisticsHandler extends Base implements CommonService {
 			String ip, String userAgent, Date dateFrom, Date dateTo) {
 		info(loggingId, "Process with date");
 		DAOResponse result = null;
-		DAOJedis dao = new DAOJedis();
+		DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
 		if (ip != null) {
 			if (userAgent != null) {
 				result = dao.getStatisticsDateIpUserAgent(url, from, to,
@@ -234,7 +247,7 @@ public class StatisticsHandler extends Base implements CommonService {
 			String ip, String userAgent) {
 		info(loggingId, "Process without date");
 		DAOResponse result = null;
-		DAOJedis dao = new DAOJedis();
+		DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
 		if (ip != null) {
 			if (userAgent != null) {
 				result = dao.getStatisticsIpUserAgent(url, from, to, ip,

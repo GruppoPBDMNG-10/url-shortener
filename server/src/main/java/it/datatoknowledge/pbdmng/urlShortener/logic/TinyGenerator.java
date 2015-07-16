@@ -9,26 +9,15 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
-public abstract class CommonLogic extends Base{
+public class TinyGenerator extends Base{
 	
-	protected CommonLogic() {
+	private final static String[] INVALID_SYMBOLS = {"?", "&", "="};
+	
+	public TinyGenerator() {
 		super();
 	}
 	
-	protected String getTiny(String url, String custom) {
-		String result = null;
-		if (custom != null) {
-			//TODO: CHECK FOR CUSTOM
-			info(loggingId, "Desired custom:", custom);
-			result = custom;
-		} else {
-			result = generateTiny(url);
-		}
-		return result;
-	}
-
-	private String generateTiny(String url) {
-		
+	public String getTiny(String url) {
 		String result = null;
 		if (url != null) {
 			if (url.length() > 0) {
@@ -48,7 +37,12 @@ public abstract class CommonLogic extends Base{
 					hashBytes = md.digest(resultByte);
 					hashBytes = Arrays.copyOf(hashBytes, 6);
 					result = Base64.getUrlEncoder().encodeToString(hashBytes);
-					
+					for (String symbol : INVALID_SYMBOLS) {
+						if (result.contains(symbol)) {
+							result = getTiny(url);
+							break;
+						}
+					}
 
 				} catch (NoSuchAlgorithmException e) {
 					// TODO Auto-generated catch block

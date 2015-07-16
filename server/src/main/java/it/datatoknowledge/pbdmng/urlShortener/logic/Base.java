@@ -22,6 +22,8 @@ public abstract class Base {
 	private final static String ACCESS_ALLOW_METHODS = "Access-Control-Allow-Methods";
 
 	private final static String ACCES_CONTROLL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+	
+	private final static String OK = "OK";
 
 	protected Base() {
 		logger = Logger.getLogger(this.getClass());
@@ -66,6 +68,11 @@ public abstract class Base {
 		String route = serviceParameters.getValue(Parameters.ROUTE_ALL,
 				Parameters.DEFAULT_ROUTE_ALL);
 		
+		before((request, response) -> {
+
+			response.header(ACCES_CONTROLL_ALLOW_ORIGIN, Constants.ASTERISK);
+		});
+
 		options(route,
 				(request, response) -> {
 
@@ -83,17 +90,7 @@ public abstract class Base {
 								accessControlRequestMethod);
 					}
 
-					return "OK";
+					return OK;
 				});
-		before((request, response) -> {
-			response.header(ACCES_CONTROLL_ALLOW_ORIGIN, Constants.ASTERISK);
-		});
-		
-		// get("/",
-		// (request, response) -> {
-		//
-		// response.redirect("http://localhost/index.html");
-		// return null;
-		// });
 	}
 }

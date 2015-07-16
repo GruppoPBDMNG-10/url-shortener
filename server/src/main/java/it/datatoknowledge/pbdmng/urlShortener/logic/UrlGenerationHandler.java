@@ -8,12 +8,14 @@ import static spark.Spark.post;
 import it.datatoknowledge.pbdmng.urlShortener.bean.Result;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlRequest;
 import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlResponse;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponseCode;
 import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
-import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponse;
-import it.datatoknowledge.pdbmng.urlShortener.dao.DAOResponseCode;
-import it.datatoknowledge.pdbmng.urlShortener.dao.jedis.DAOJedis;
 
 import java.util.Date;
 
@@ -25,7 +27,7 @@ import spark.Request;
  * @author Gianluca
  *
  */
-public class UrlGenerationHandler extends CommonLogic implements CommonService {
+public class UrlGenerationHandler extends Base implements CommonService {
 
 	/**
 	 * 
@@ -68,25 +70,33 @@ public class UrlGenerationHandler extends CommonLogic implements CommonService {
 			if (checkUrl(originalUrl)) {
 				int maxAttemps = Integer.parseInt(serviceParameters.getValue(
 						"max_attemps", "5"));
-				DAOJedis dao = new DAOJedis();
+				DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
 				DAOResponse responseDAO = new DAOResponse();
 				DAOResponseCode resultCode = DAOResponseCode.NOT_INSERTED;
 				responseDAO.setResultCode(resultCode);
 				String tiny = null;
 				String custom = request.getCustom();
-				int cont = 0;
-				do {
-					tiny = getTiny(originalUrl, custom);
-					custom = null; //the second time that it is executed, it will provide a random tiny url
-					if (tiny != null) {
-						responseDAO = dao.newUrl(tiny, originalUrl, new Date());
-					}
-					cont++;
+				boolean isCustom = false;
+				if (custom != null) {
+					info(loggingId, "Desired custom:", custom);
+					isCustom = true;
+					dao.newUrl(custom, originalUrl, new Date());
+				} else {
+					int cont = 0;
+					TinyGenerator gen = new TinyGenerator();
+					do {
+						tiny = gen.getTiny(originalUrl);
+						custom = null; //the second time that it is executed, it will provide a random tiny url
+						if (tiny != null) {
+							responseDAO = dao.newUrl(tiny, originalUrl, new Date());
+						}
+						cont++;
 
-				} while (responseDAO.getResultCode().equals(
-						DAOResponseCode.DUPLICATED_KEY)
-						&& cont < maxAttemps);
-
+					} while (responseDAO.getResultCode().equals(
+							DAOResponseCode.DUPLICATED_KEY)
+							&& cont < maxAttemps);
+				}
+				
 				if (responseDAO.getResultCode()
 						.equals(DAOResponseCode.INSERTED)) {
 					result.setDescription(Result.OK_DESCRIPTION);
@@ -96,7 +106,9 @@ public class UrlGenerationHandler extends CommonLogic implements CommonService {
 					buffer.append(tiny);
 					urlResponse.setUrlTiny(buffer.toString());
 					urlResponse.setUrl(originalUrl);
-					
+				} else if (isCustom) {
+					result.setDescription(Result.DUPLICATED_ERROR_DESCRIPTION);
+					result.setReturnCode(Result.DUPLICATED_ERROR_RETURN_CODE);
 				}
 				response = JsonManager.buildJson(urlResponse);
 			} else {

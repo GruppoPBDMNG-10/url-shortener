@@ -1,4 +1,4 @@
-package it.datatoknowledge.pdbmng.urlShortener.dao;
+package it.datatoknowledge.pbdmng.urlShortener.dao;
 
 public class DAOTransferKey {
 	
