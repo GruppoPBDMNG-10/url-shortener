@@ -31,7 +31,7 @@ public class RequestHandler extends Base implements CommonService{
 	@Override
 	public String process(Request clientRequest) {
 		// TODO Auto-generated method stub
-		debug(loggingId, "/*** Start RequestHandler.proces ***/");
+		debug(loggingId, "/*** Start RequestHandler.process ***/");
 		long start = System.currentTimeMillis();
 		String result = null;
 		String[] wildcards = clientRequest.splat();
@@ -57,7 +57,7 @@ public class RequestHandler extends Base implements CommonService{
 		}
 		long finish = System.currentTimeMillis();
 		info(loggingId + " - Elapsed time: " + (finish - start));
-		debug(loggingId, "/*** Finish RequestHandler.proces ***/");
+		debug(loggingId, "/*** Finish RequestHandler.process ***/");
 		info(loggingId, "Response:", result);
 		return result;
 	}

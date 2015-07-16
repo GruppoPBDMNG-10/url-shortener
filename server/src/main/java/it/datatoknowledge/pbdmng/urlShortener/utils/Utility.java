@@ -2,12 +2,9 @@ package it.datatoknowledge.pbdmng.urlShortener.utils;
 
 import it.datatoknowledge.pbdmng.urlShortener.logic.Base;
 
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.Date;
 
 public class Utility extends Base{
@@ -29,14 +26,16 @@ public class Utility extends Base{
 		return result;
 	}
 	
-	public Date stringToDate(String date) {
+	public Date stringToDate(String date, String format) {
 		Date result = null;
 		try {
 			if (date != null) {
-				DateTimeFormatter dtf = new DateTimeFormatterBuilder().appendPattern(Constants.DATE_PATTERN_TIMESTAMP).appendValue(ChronoField.MILLI_OF_SECOND, 3).toFormatter();
-				ZonedDateTime ldt = LocalDateTime.parse(date, dtf).atZone(ZoneId.systemDefault());
-				ldt.format(DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_ISO));
-				result =  Date.from(ldt.toInstant());	
+				SimpleDateFormat sdf = new SimpleDateFormat(format);
+				result = sdf.parse(date);
+//				DateTimeFormatter dtf = new DateTimeFormatterBuilder().appendPattern(format).appendValue(ChronoField.MILLI_OF_SECOND, 3).toFormatter();
+//				ZonedDateTime ldt = LocalDateTime.parse(date, dtf).atZone(ZoneId.systemDefault());
+//				ldt.format(DateTimeFormatter.ofPattern(Constants.DATE_PATTERN_ISO));
+//				result =  Date.from(ldt.toInstant());	
 			}
 			
 		} catch (Exception e) {

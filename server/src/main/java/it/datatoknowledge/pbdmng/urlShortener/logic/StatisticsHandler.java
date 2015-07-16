@@ -15,6 +15,7 @@ import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOTransferKey;
 import it.datatoknowledge.pbdmng.urlShortener.dao.jedis.Keys;
 import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
+import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Utility;
 
@@ -68,7 +69,7 @@ public class StatisticsHandler extends Base implements CommonService {
 	@Override
 	public String process(Request clientRequest) {
 		// TODO Auto-generated method stub
-		debug(loggingId, "/*** Start Statistics.proces ***/");
+		debug(loggingId, "/*** Start Statistics.process ***/");
 		long start = System.currentTimeMillis();
 		String result = null;
 		UrlResponse response = new UrlResponse();
@@ -91,9 +92,9 @@ public class StatisticsHandler extends Base implements CommonService {
 			String ip = clientRequest.queryParams(IP);
 			String userAgent = clientRequest.queryParams(USER_AGENT);
 			Date dateFrom = utility.stringToDate(clientRequest
-					.queryParams(DATE_FROM));
+					.queryParams(DATE_FROM), Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY);
 			Date dateTo = utility.stringToDate(clientRequest
-					.queryParams(DATE_TO));
+					.queryParams(DATE_TO), Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY);
 			info(loggingId, "Filter:", "ip =", ip, "agent =", userAgent,
 					"from =", from, "to =", to, "Date from =", dateFrom,
 					"Date to =", dateTo);
@@ -116,7 +117,7 @@ public class StatisticsHandler extends Base implements CommonService {
 						.get(DAOTransferKey.URL_SHORT);
 				String longUrl = urlShort.get(Keys.LONG_URL);
 				Date urlTimestamp = utility.stringToDate(urlShort
-						.get(Keys.TIMESTAMP));
+						.get(Keys.TIMESTAMP), Constants.DATE_PATTERN_TIMESTAMP);
 				response.setUrl(longUrl);
 				Statistics statistics = new Statistics();
 				response.setStatistics(statistics);
@@ -185,7 +186,7 @@ public class StatisticsHandler extends Base implements CommonService {
 		result = JsonManager.buildJson(response);
 		long finish = System.currentTimeMillis();
 		info(loggingId, " - Elapsed time: " + (finish - start));
-		debug(loggingId, "/*** Finish Statistics.proces ***/");
+		debug(loggingId, "/*** Finish Statistics.process ***/");
 		info(loggingId, "Response:", result);
 		return result;
 	}

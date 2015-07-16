@@ -78,7 +78,7 @@ public class Click {
 	}
 
 	/**
-	 * Get a JSON string 
+	 * Get a JSON string containing the click geo location info.
 	 * @return the locationInfo
 	 */
 	public String getLocationInfo() {

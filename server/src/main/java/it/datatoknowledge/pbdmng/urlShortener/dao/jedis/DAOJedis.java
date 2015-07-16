@@ -81,12 +81,14 @@ public class DAOJedis extends Base implements DAOInterface{
 			p.multi(); // start a transaction
 			Map<String, String> clickMap = new HashMap<String, String>();
 			String stringTimestamp = utility.dateToString(timestamp, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY);
+			System.out.println("Click timestamp: " + stringTimestamp);
 			clickMap.put(Keys.TIMESTAMP, stringTimestamp);
 			clickMap.put(Keys.USER_AGENT, userAgent);
 			clickMap.put(Keys.IP, ip);
 			if (jsonLocationInfo != null) {
 				clickMap.put(Keys.LOCATION_INFO, jsonLocationInfo);	
 			}
+			System.out.println("ClickMap to set: " + clickMap.toString());
 			p.hmset(String.valueOf(clickId), clickMap);
 			StringBuffer baseBuffer = new StringBuffer(CLICKS_LIST);
 			baseBuffer.append(url);
@@ -385,6 +387,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Iterator<String> it = idClicksResponse.get().iterator();
 		for (Response<Map<String, String>> clickResponse : clicksResponse) {
 			Map<String, String> click = clickResponse.get();
+			System.out.println("Click to set: " + click);
 			Map<String, Object> clickToSet = new HashMap<String, Object>();
 			clickToSet.put(Keys.ID, it.next());
 			for (Map.Entry<String, String> entry : click.entrySet()) {
@@ -392,7 +395,8 @@ public class DAOJedis extends Base implements DAOInterface{
 				Object valueToSet = null;
 				if (key.equals(Keys.TIMESTAMP)) {
 					String value = entry.getValue();
-					valueToSet = utility.stringToDate(value);
+					System.out.println(value);
+					valueToSet = utility.stringToDate(value, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY);
 				} else if (key.equals(Keys.IP) || key.equals(Keys.USER_AGENT)) {
 					valueToSet = entry.getValue();
 				}

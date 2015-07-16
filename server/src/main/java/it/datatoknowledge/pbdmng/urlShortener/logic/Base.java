@@ -1,8 +1,7 @@
 package it.datatoknowledge.pbdmng.urlShortener.logic;
 
-import static spark.Spark.options;
 import static spark.Spark.before;
-
+import static spark.Spark.options;
 import it.datatoknowledge.pbdmng.urlShortener.parameters.ServiceParameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;

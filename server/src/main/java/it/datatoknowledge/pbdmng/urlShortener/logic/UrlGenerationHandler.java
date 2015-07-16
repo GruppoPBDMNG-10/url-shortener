@@ -54,7 +54,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 	@Override
 	public String process(Request clientRequest) {
 		// TODO Auto-generated method stub
-		debug(loggingId, "/*** Start UrlGeneration.proces ***/");
+		debug(loggingId, "/*** Start UrlGeneration.process ***/");
 		long start = System.currentTimeMillis();
 		UrlRequest request = (UrlRequest) JsonManager.parseJson(clientRequest.body(),
 				UrlRequest.class);
@@ -64,6 +64,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 
 		result.setReturnCode(Result.GENERIC_ERROR_RETURN_CODE);
 		result.setDescription(Result.GENERIC_ERROR_DESCRIPTION);
+		urlResponse.setResult(result);
 		String response = null;
 		if (request != null) {
 			String originalUrl = request.getUrl();
@@ -80,7 +81,8 @@ public class UrlGenerationHandler extends Base implements CommonService {
 				if (custom != null) {
 					info(loggingId, "Desired custom:", custom);
 					isCustom = true;
-					dao.newUrl(custom, originalUrl, new Date());
+					responseDAO = dao.newUrl(custom, originalUrl, new Date());
+					tiny = custom;
 				} else {
 					int cont = 0;
 					TinyGenerator gen = new TinyGenerator();
@@ -101,7 +103,6 @@ public class UrlGenerationHandler extends Base implements CommonService {
 						.equals(DAOResponseCode.INSERTED)) {
 					result.setDescription(Result.OK_DESCRIPTION);
 					result.setReturnCode(Result.OK_RETURN_CODE);
-					urlResponse.setResult(result);
 					StringBuffer buffer = new StringBuffer(Constants.DOMAIN);
 					buffer.append(tiny);
 					urlResponse.setUrlTiny(buffer.toString());
@@ -119,8 +120,8 @@ public class UrlGenerationHandler extends Base implements CommonService {
 		}
 		long finish = System.currentTimeMillis();
 		info(loggingId, " - Elapsed time: " + (finish - start));
-		debug(loggingId, "/*** Finish UrlGeneration.proces ***/");
-		info(loggingId, "Response:", result);
+		debug(loggingId, "/*** Finish UrlGeneration.process ***/");
+		info(loggingId, "Response:", response);
 		return response;
 	}
 
