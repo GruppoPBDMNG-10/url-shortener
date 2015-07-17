@@ -1,0 +1,6 @@
+Options +FollowSymlinks
+RewriteEngine on
+
+
+RewriteRule ^home$ index.html [nc,L]
+RewriteRule ^statistics$ index.html [nc,L]
