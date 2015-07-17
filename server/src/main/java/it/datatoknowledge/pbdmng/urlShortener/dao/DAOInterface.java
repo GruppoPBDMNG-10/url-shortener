@@ -6,6 +6,12 @@ public interface DAOInterface {
 	
 	public DAOResponse newUrl(String key, String originalUrl, Date timestamp);
 	
+	/**
+	 * Only test method.
+	 * @param args
+	 */
+	public void deleteKeys(String...args);
+	
 	public DAOResponse getOrigin(String url, String ip, String userAgent, Date timestamp);
 	
 	public DAOResponse getStatistics(String url, int from, int to);

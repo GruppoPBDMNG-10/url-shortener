@@ -2,9 +2,15 @@ package it.datatoknowledge.pbdmng.urlShortener.logic;
 
 import static spark.Spark.before;
 import static spark.Spark.options;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
+import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
 import it.datatoknowledge.pbdmng.urlShortener.parameters.ServiceParameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
+
+import java.util.Date;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 
@@ -63,6 +69,12 @@ public abstract class Base {
 	 * Load base application configurations.
 	 */
 	protected void setUp() {
+		
+		boolean isTesting = serviceParameters.getValue(Parameters.IS_TESTING, Parameters.DEFAULT_IS_TESTING);
+		if (isTesting) {
+			populateDB();
+			info(loggingId, "Executed populateDB");
+		}
 
 		String route = serviceParameters.getValue(Parameters.ROUTE_ALL,
 				Parameters.DEFAULT_ROUTE_ALL);
@@ -91,5 +103,51 @@ public abstract class Base {
 
 					return OK;
 				});
+	}
+	
+	private void populateDB() {
+		String url = "test";
+		String[] ips = {
+				"194.132.118.121",
+				"80.76.155.148",
+				"192.84.36.16",
+				"193.104.112.20",
+				"54.69.206.247",
+				"158.81.201.220",
+				"192.185.5.96",
+				"162.246.58.237",
+				"173.230.198.21",
+				"194.132.118.121"
+		};
+		
+		String[] agents = {
+				"Firefox",
+				"IE",
+				"Safari",
+				"Chrome",
+				"Opera"
+		};
+		
+		String[] urls = {
+				"http://www.facebook.it",
+				"http://www.site24x7.com",
+				"http://stackoverflow.com/"
+		};
+		
+		String[] tiny = new String[3];
+		Random r = new Random();
+		DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
+		for (int i = 0; i < tiny.length; i++) {
+			String longUrl = urls[i];
+			tiny[i] = url+i;
+			dao.deleteKeys(tiny[i]);
+			dao.newUrl(tiny[i], longUrl, new Date());
+		}
+		
+		for (int i = 0; i < ips.length; i++) {
+			dao.getOrigin(tiny[r.nextInt(tiny.length)], ips[i], agents[r.nextInt(agents.length)], new Date());
+		}
+		
+		info(loggingId, "Tiny url added:", tiny);
 	}
 }

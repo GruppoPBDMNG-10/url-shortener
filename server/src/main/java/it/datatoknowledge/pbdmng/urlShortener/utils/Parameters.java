@@ -24,5 +24,7 @@ public class Parameters {
 	
 	public final static String DEFAULT_GEO_LOCATION_FILE_PATH = "C://User_temp/location/GeoLite2-City.mmdb";
 	
-
+	public final static String IS_TESTING = "testing";
+	
+	public final static boolean DEFAULT_IS_TESTING = true;
 }

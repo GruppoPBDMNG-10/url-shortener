@@ -408,5 +408,11 @@ public class DAOJedis extends Base implements DAOInterface{
 		}
 		return clicks;
 	}
+
+	@Override
+	public void deleteKeys(String... keys) {
+		// TODO Auto-generated method stub
+		conn.del(keys);
+	}
 	
 }
