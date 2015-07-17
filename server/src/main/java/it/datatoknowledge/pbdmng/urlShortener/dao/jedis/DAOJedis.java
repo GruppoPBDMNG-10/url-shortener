@@ -57,7 +57,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		if (checkKey(key)) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put(Keys.LONG_URL, originalUrl);
-			map.put(Keys.TIMESTAMP, utility.dateToString(timestamp, Constants.DATE_PATTERN_TIMESTAMP_CENTS));
+			map.put(Keys.TIMESTAMP, utility.dateToString(timestamp));
 			resultCode = conn.hmset(key, map).equals(OK) ? DAOResponseCode.INSERTED
 					: DAOResponseCode.NOT_INSERTED;
 		} else {
@@ -80,7 +80,7 @@ public class DAOJedis extends Base implements DAOInterface{
 			Pipeline p = conn.pipelined();
 			p.multi(); // start a transaction
 			Map<String, String> clickMap = new HashMap<String, String>();
-			String stringTimestamp = utility.dateToString(timestamp, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY);
+			String stringTimestamp = utility.dateToString(timestamp);
 			System.out.println("Click timestamp: " + stringTimestamp);
 			clickMap.put(Keys.TIMESTAMP, stringTimestamp);
 			clickMap.put(Keys.USER_AGENT, userAgent);
@@ -244,8 +244,8 @@ public class DAOJedis extends Base implements DAOInterface{
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
 		StringBuffer buffer = new StringBuffer(CLICKS_LIST);
 		buffer.append(url);
-		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
-		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
+		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom));
+		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo));
 		Pipeline p = conn.pipelined();
 		Response<Map<String, String>> map = p.hgetAll(url);
 		Response<Long> totalClicks = p.zcard(buffer.toString());
@@ -269,9 +269,9 @@ public class DAOJedis extends Base implements DAOInterface{
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
 		StringBuffer buffer = new StringBuffer(CLICKS_LIST);
 		buffer.append(url);
-		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
+		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom));
 		System.out.println(doubleDateFrom);
-		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
+		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo));
 		System.out.println(doubleDateTo);
 		Pipeline p = conn.pipelined();
 		Response<Map<String, String>> map = p.hgetAll(url);
@@ -302,8 +302,8 @@ public class DAOJedis extends Base implements DAOInterface{
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
 		StringBuffer buffer = new StringBuffer(CLICKS_LIST);
 		buffer.append(url);
-		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
-		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
+		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom));
+		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo));
 		Pipeline p = conn.pipelined();
 		Response<Map<String, String>> map = p.hgetAll(url);
 		Response<Long> totalClicks = p.zcard(buffer.toString());
@@ -331,8 +331,8 @@ public class DAOJedis extends Base implements DAOInterface{
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
 		StringBuffer buffer = new StringBuffer(CLICKS_LIST);
 		buffer.append(url);
-		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
-		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY));
+		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom));
+		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo));
 		Pipeline p = conn.pipelined();
 		Response<Map<String, String>> map = p.hgetAll(url);
 		Response<Long> totalClicks = p.zcard(buffer.toString());
@@ -396,7 +396,7 @@ public class DAOJedis extends Base implements DAOInterface{
 				if (key.equals(Keys.TIMESTAMP)) {
 					String value = entry.getValue();
 					System.out.println(value);
-					valueToSet = utility.stringToDate(value, Constants.DATE_PATTERN_TIMESTAMP_DATE_ONLY);
+					valueToSet = utility.stringToDate(value);
 				} else if (key.equals(Keys.IP) || key.equals(Keys.USER_AGENT)) {
 					valueToSet = entry.getValue();
 				}
