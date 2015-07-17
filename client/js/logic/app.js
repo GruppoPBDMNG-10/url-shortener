@@ -1,7 +1,7 @@
 angular.module('shortenerCtrl', []);
 angular.module('statisticsCtrl', []);
 angular.module('logic', []);
-angular.module('chartjs', []);
+angular.module('chart.js', []);
 angular.module('mapCtrl', []);
 
 var module = angular.module('url-shortener', [
@@ -9,7 +9,7 @@ var module = angular.module('url-shortener', [
 	'statisticsCtrl',
 	'logic',
 	'ngRoute',
-	'chartjs',
+	'chart.js',
 	'mapCtrl'
 	]);
 
