@@ -12,6 +12,8 @@ public class Constants {
 	
 	public final static String BLANK = " ";
 	
+	public final static String EMPTY = "";
+	
 	public final static String DATE_PATTERN_TIMESTAMP_CENTS = "yyyyMMddHHmmssSSS";
 	
 	public final static String DATE_PATTERN_TIMESTAMP= "yyyyMMddHHmmss";

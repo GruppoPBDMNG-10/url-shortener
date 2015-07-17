@@ -9,14 +9,16 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
-public class TinyGenerator extends Base{
+public class TinyGenerator extends Base {
+
+	private final static String INVALID_SYMBOL = "/";
 	
-	private final static String[] INVALID_SYMBOLS = {"?", "&", "="};
-	
+	private final static String REPLACE_SYMBOL = "@";
+
 	public TinyGenerator() {
 		super();
 	}
-	
+
 	public String getTiny(String url) {
 		String result = null;
 		if (url != null) {
@@ -37,12 +39,7 @@ public class TinyGenerator extends Base{
 					hashBytes = md.digest(resultByte);
 					hashBytes = Arrays.copyOf(hashBytes, 6);
 					result = Base64.getUrlEncoder().encodeToString(hashBytes);
-					for (String symbol : INVALID_SYMBOLS) {
-						if (result.contains(symbol)) {
-							result = getTiny(url);
-							break;
-						}
-					}
+					result = result.replaceAll(INVALID_SYMBOL, REPLACE_SYMBOL);
 
 				} catch (NoSuchAlgorithmException e) {
 					// TODO Auto-generated catch block

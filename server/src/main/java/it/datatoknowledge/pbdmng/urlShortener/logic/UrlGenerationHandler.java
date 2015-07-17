@@ -28,6 +28,8 @@ import spark.Request;
  *
  */
 public class UrlGenerationHandler extends Base implements CommonService {
+	
+	private final static String[] INVALID_CUSTOM_SYMBOLS = {"?", "&", "=", Constants.BLANK, "/", "\\", ".", "%"};
 
 	/**
 	 * 
@@ -78,7 +80,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 				String tiny = null;
 				String custom = request.getCustom();
 				boolean isCustom = false;
-				if (custom != null) {
+				if (isValidCustom(custom)) {
 					info(loggingId, "Desired custom:", custom);
 					isCustom = true;
 					responseDAO = dao.newUrl(custom, originalUrl, new Date());
@@ -137,6 +139,16 @@ public class UrlGenerationHandler extends Base implements CommonService {
 		after((req, res) -> {
 			res.type("application/json");
 		});
+	}
+	
+	private boolean isValidCustom(String custom) {
+		boolean isValid = false;
+		if (custom != null && !custom.equals(Constants.EMPTY)) {
+			for (String s : INVALID_CUSTOM_SYMBOLS) {
+				isValid =  (!custom.contains(s));
+			}
+		}
+		return isValid;
 	}
 
 }
