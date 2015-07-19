@@ -88,28 +88,24 @@ public class DAOJedis extends Base implements DAOInterface{
 			if (jsonLocationInfo != null) {
 				clickMap.put(Keys.LOCATION_INFO, jsonLocationInfo);	
 			}
-			System.out.println("ClickMap to set: " + clickMap.toString());
+			info(loggingId, "ClickMap to set:", clickMap.toString());
 			p.hmset(String.valueOf(clickId), clickMap);
 			StringBuffer baseBuffer = new StringBuffer(CLICKS_LIST);
 			baseBuffer.append(url);
 			double doubleTimestamp = Double.valueOf(stringTimestamp)
 					.doubleValue();
 			String stringClickId = String.valueOf(clickId);
-			System.out.println("Base buffer: " + baseBuffer);
 			p.zadd(baseBuffer.toString(), doubleTimestamp, stringClickId);
 			baseBuffer.append(Constants.COLON);
 			StringBuffer ipBuffer = new StringBuffer(baseBuffer);
 			ipBuffer.append(ip);
-			System.out.println("Ip buffer: " + ipBuffer);
 			p.zadd(ipBuffer.toString(), doubleTimestamp, stringClickId);
 			ipBuffer.append(Constants.COLON);
 			ipBuffer.append(userAgent.toLowerCase());
-			System.out.println("IpAgent buffer: " + ipBuffer);
 			p.zadd(ipBuffer.toString(), doubleTimestamp, stringClickId);
 			StringBuffer userAgentBuffer = new StringBuffer(baseBuffer);
 			baseBuffer.append(Constants.COLON);
 			userAgentBuffer.append(userAgent.toLowerCase());
-			System.out.println("UserAgent buffer: " + userAgentBuffer);
 			p.zadd(userAgentBuffer.toString(), doubleTimestamp, stringClickId);
 			p.exec();
 			p.sync();

@@ -10,6 +10,8 @@ import java.util.Base64;
 import java.util.Random;
 
 public class TinyGenerator extends Base {
+	
+	private final static String HASH_ALORITHM = "SHA-512";
 
 	private final static String INVALID_SYMBOL = "/";
 	
@@ -34,7 +36,7 @@ public class TinyGenerator extends Base {
 					}
 					MessageDigest md;
 					byte[] hashBytes = null;
-					md = MessageDigest.getInstance("SHA-512");
+					md = MessageDigest.getInstance(HASH_ALORITHM);
 
 					hashBytes = md.digest(resultByte);
 					hashBytes = Arrays.copyOf(hashBytes, 6);

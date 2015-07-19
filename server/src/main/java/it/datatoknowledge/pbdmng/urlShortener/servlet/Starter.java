@@ -27,35 +27,35 @@ public class Starter extends Base {
 				Method m = service.getMethod("exposeServices");
 				Object obj = service.newInstance();
 				m.invoke(obj);
-				System.out.println("Mapped route " + service.getSimpleName());
+				starter.info(starter.loggingId, "Mapped route", service.getSimpleName());
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-//				error(starter.loggingId, e.getMessage());
+				starter.error(starter.loggingId, e.getMessage());
 			} catch (NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-//				error(starter.loggingId, e.getMessage());
+				starter.error(starter.loggingId, e.getMessage());
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-//				error(starter.loggingId, e.getMessage());
+				starter.error(starter.loggingId, e.getMessage());
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-//				error(starter.loggingId, e.getMessage());
+				starter.error(starter.loggingId, e.getMessage());
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-//				error(starter.loggingId, e.getMessage());
+				starter.error(starter.loggingId, e.getMessage());
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-//				error(starter.loggingId, e.getMessage());
+				starter.error(starter.loggingId, e.getMessage());
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-//				error(starter.loggingId, e.getMessage());
+				starter.error(starter.loggingId, e.getMessage());
 			}
 		}
 	}
