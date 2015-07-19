@@ -36,7 +36,7 @@
 					<tbody>
 						<tr ng-repeat="click in urlDetails.statistics.clicks | orderBy:'timestamp'">
 							<td>{{click.ip}}</td>
-							<td>{{click.timestamp| date:'yyyy-MM-dd HH:mm'}}</td>
+							<td>{{click.timestamp| date:'short'}}</td>
 							<td>{{click.userAgent}}</td>
 						</tr>
 					</tbody>

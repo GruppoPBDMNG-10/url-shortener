@@ -47,26 +47,26 @@ angular.module('statisticsCtrl', ['chart.js'])
 //	}
 //
 //		
-	var data = [ {
-		value : 8,
-		color : "#F7464A",
-		highlight : "#FF5A5E",
-		label : "Chrome"
-	}, {
-		value : 5,
-		color : "#46BFBD",
-		highlight : "#5AD3D1",
-		label : "Firefox"
-	}, {
-		value : 1,
-		color : "#FDB45C",
-		highlight : "#FFC870",
-		label : "Explorer"
-	} ];
-	
-	
-    var ctx = document.getElementById("pie").getContext("2d");
-    new Chart(ctx).Pie(data);
+//	var data = [ {
+//		value : 8,
+//		color : "#F7464A",
+//		highlight : "#FF5A5E",
+//		label : "Chrome"
+//	}, {
+//		value : 5,
+//		color : "#46BFBD",
+//		highlight : "#5AD3D1",
+//		label : "Firefox"
+//	}, {
+//		value : 1,
+//		color : "#FDB45C",
+//		highlight : "#FFC870",
+//		label : "Explorer"
+//	} ];
+//	
+//	
+//    var ctx = document.getElementById("pie").getContext("2d");
+//    new Chart(ctx).Pie(data);
     
     /**
      * Object urlDetails.
@@ -105,6 +105,6 @@ angular.module('statisticsCtrl', ['chart.js'])
     $scope.statistics = function(){
     	var tiny = checkUrl($scope.urlDetails.urlTiny);
     	Shortener.statistics(tiny, callback);
-    }
-	
+    }  
+    
 }]);
