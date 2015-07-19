@@ -12,6 +12,8 @@ import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
 import java.util.Date;
 
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
 import spark.Request;
 
 /**
@@ -36,18 +38,18 @@ public class RequestHandler extends Base implements CommonService{
 		if (wildcards != null && wildcards.length == 1) {
 			String url = clientRequest.splat()[0];
 			if (url != null) {
-				String userAgent = clientRequest.userAgent();
+				String browser = getBrowserFromAgent(clientRequest.userAgent());
 				String ip = clientRequest.ip();
 				Date timestamp = new Date();
 				DAOInterface dao = DAOFactory.getIstance(DAOImplementation.JEDIS);
-				DAOResponse response = dao.getOrigin(url, ip, userAgent, timestamp);
+				DAOResponse response = dao.getOrigin(url, ip, browser, timestamp);
 				switch (response.getResultCode()) {
 				case UPDATED:
 					result = (String) response.getResponse();
-					info(loggingId,"Url requested: " + url + " redirected to: " + result);
+					info(loggingId,"Url requested:", url, "redirected to:" + result);
 					break;
 				case NOT_MAPPED:
-					info(loggingId,"Url requested: " + url + " not present into database!");
+					info(loggingId,"Url requested:", url, "not present into database!");
 					break;
 				default: break;
 				}
@@ -58,6 +60,17 @@ public class RequestHandler extends Base implements CommonService{
 		debug(loggingId, "/*** Finish RequestHandler.process ***/");
 		info(loggingId, "Response:", result);
 		return result;
+	}
+	
+	/**
+	 * Get the browser name from the user agent.
+	 * @param userAgent the user agent.
+	 * @return the browser name.
+	 */
+	private String getBrowserFromAgent(String userAgent) {
+		UserAgent agent = UserAgent.parseUserAgentString(userAgent);
+		Browser br = agent.getBrowser();
+		return br.getGroup().getName();
 	}
 
 	@Override

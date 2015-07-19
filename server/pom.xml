@@ -107,6 +107,12 @@
 			<version>2.3.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>eu.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>1.16</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
