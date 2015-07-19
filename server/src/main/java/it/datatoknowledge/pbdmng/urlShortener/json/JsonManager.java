@@ -10,7 +10,7 @@ import com.google.gson.JsonSyntaxException;
 /**
  * 
  * @author Gianluca Colaianni
- * JSON Manager. This is a Singletone class.
+ * This class is responsible to build and parsing JSON object.
  *
  */
 public class JsonManager extends Base{
@@ -40,9 +40,9 @@ public class JsonManager extends Base{
 	}
 	
 	/**
-	 * 
-	 * @param jsonString
-	 * @param c
+	 * Parse a JSON {@link String} to build the {@link Object} of {@link Class} specified from {@value c}.
+	 * @param jsonString the {@link String} to parse.
+	 * @param c the {@link Class}'s {@link Object} to build.
 	 * @return
 	 */
 	public static Object parseJson(String jsonString, Class<?> c) {

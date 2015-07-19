@@ -3,22 +3,23 @@
  */
 package it.datatoknowledge.pbdmng.urlShortener.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponse;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOResponseCode;
-import it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis;
 
 import java.util.Date;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author Gianluca
+ * @author Gianluca Colaianni.
+ * To run this test, it is necessary run first an available Redis Server.
  *
  */
 public class TestDAOJedis {
@@ -33,6 +34,14 @@ public class TestDAOJedis {
 	private final static int NUM_CLICK = 10;
 	private DAOResponse[] urlsResponse;
 	private DAOInterface dao;
+	private final static String KEY = "abcd123";
+	private final static String[] AGENTS = {
+		"Mozilla",
+		"Chrome",
+		"Safari",
+		"Opera",
+		"IE"
+	};
 
 	/**
 	 * @throws java.lang.Exception
@@ -55,9 +64,23 @@ public class TestDAOJedis {
 		urlsResponse[0] = response1;
 		urlsResponse[1] = response2;
 		for (int i = 0; i < NUM_URL; i++) {
-			keys[i] = "abcdef";
+			keys[i] = KEY;
 			originalUrls[i] = "http://www.facebook.it";
 			urlsTimestamp[i] = new Date();
+		}
+		Random r = new Random();
+		for (int i = 0; i < NUM_CLICK; i++) {
+			StringBuffer ipBuffer = new StringBuffer(r.nextInt(256));
+			ipBuffer.append(".");
+			ipBuffer.append(r.nextInt(256));
+			ipBuffer.append(".");
+			ipBuffer.append(r.nextInt(256));
+			ipBuffer.append(".");
+			ipBuffer.append(r.nextInt(256));
+			clicksId[i] = r.nextLong();
+			ips[i] = ipBuffer.toString();
+			userAgents[i] = AGENTS[r.nextInt(AGENTS.length)];
+			clicksTimestamp[i] = new Date();
 		}
 	}
 
@@ -73,7 +96,11 @@ public class TestDAOJedis {
 	 */
 	@Test
 	public final void testNewUrl() {
-		fail("Not yet implemented"); // TODO
+		for (int i = 0; i < NUM_URL; i++) {
+			
+			assertTrue("Test url n. " + (i+1), urlsResponse[i].getResultCode().equals(dao.newUrl(keys[i], originalUrls[i], urlsTimestamp[i]).getResultCode()));
+		}
+		
 	}
 
 	/**
@@ -81,71 +108,8 @@ public class TestDAOJedis {
 	 */
 	@Test
 	public final void testGetOrigin() {
-		fail("Not yet implemented"); // TODO
+		for (int i = 0; i < NUM_CLICK; i++) {
+			assertTrue("Test click n. " + (i+1), DAOResponseCode.UPDATED.equals(dao.getOrigin(KEY, ips[i], userAgents[i], clicksTimestamp[i]).getResultCode()));
+		}
 	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatistics(java.lang.String, int, int)}.
-	 */
-	@Test
-	public final void testGetStatistics() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatisticsIpUserAgent(java.lang.String, int, int, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public final void testGetStatisticsIpUserAgent() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatisticsIp(java.lang.String, int, int, java.lang.String)}.
-	 */
-	@Test
-	public final void testGetStatisticsIp() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatisticsUserAgent(java.lang.String, int, int, java.lang.String)}.
-	 */
-	@Test
-	public final void testGetStatisticsUserAgent() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatisticsDate(java.lang.String, int, int, java.util.Date, java.util.Date)}.
-	 */
-	@Test
-	public final void testGetStatisticsDate() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatisticsDateIpUserAgent(java.lang.String, int, int, java.util.Date, java.util.Date, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public final void testGetStatisticsDateIpUserAgent() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatisticsDateIp(java.lang.String, int, int, java.util.Date, java.util.Date, java.lang.String)}.
-	 */
-	@Test
-	public final void testGetStatisticsDateIp() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis#getStatisticsDateUserAgent(java.lang.String, int, int, java.util.Date, java.util.Date, java.lang.String)}.
-	 */
-	@Test
-	public final void testGetStatisticsDateUserAgent() {
-		fail("Not yet implemented"); // TODO
-	}
-
 }

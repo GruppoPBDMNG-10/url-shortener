@@ -1,16 +1,18 @@
 package it.datatoknowledge.pbdmng.urlShortener.dao;
 
+/**
+ * 
+ * @author Gianluca Colaianni
+ * Contains the response about a DAO process.
+ */
 public class DAOResponse {
 	
 	private DAOResponseCode resultCode;
 	
 	private Object response;
 
-	public DAOResponse() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/**
+	 * Return the process result code.
 	 * @return the resultCode
 	 */
 	public DAOResponseCode getResultCode() {
@@ -18,21 +20,24 @@ public class DAOResponse {
 	}
 
 	/**
-	 * @param resultCode the resultCode to set
+	 * Set the process result code.
+	 * @param resultCode the resultCode to set.
 	 */
 	public void setResultCode(DAOResponseCode resultCode) {
 		this.resultCode = resultCode;
 	}
 
 	/**
-	 * @return the response
+	 * Get the process result object.
+	 * @return the response result object.
 	 */
 	public Object getResponse() {
 		return response;
 	}
 
 	/**
-	 * @param response the response to set
+	 * Set the process result object.
+	 * @param response the response to set.
 	 */
 	public void setResponse(Object response) {
 		this.response = response;

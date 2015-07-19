@@ -1,5 +1,10 @@
 package it.datatoknowledge.pbdmng.urlShortener.dao.jedis;
 
+/**
+ * 
+ * @author Gianluca Colaianni
+ * Single value key for DAO response object.
+ */
 public class Keys {
 
 	public final static String LONG_URL = "LONG_URL";

@@ -33,6 +33,10 @@ public class GeoLocationService extends Base{
 	private static DatabaseReader reader;
 	private String jsonInfo;
 	
+	/**
+	 * Default constructor.
+	 * @param ipAddress the ipAddress to find.
+	 */
 	public GeoLocationService(String ipAddress) {
 		// TODO Auto-generated constructor stub
 		super();
@@ -49,7 +53,9 @@ public class GeoLocationService extends Base{
 	}
 	
 	/**
-	 * Provide the location of one ip addresse.
+	 * Provide the location of one ip address.
+	 * @param ipAddressString the ipAddress to get location.
+	 * @return a JSON format {@link String} of the location info.
 	 */
 	private String getLocation(String ipAddressString) {
 		String result = null;
@@ -104,11 +110,4 @@ public class GeoLocationService extends Base{
 		return jsonInfo;
 	}
 	
-	public static void main(String...args) {
-		long start = System.currentTimeMillis();
-		GeoLocationService geo = new GeoLocationService("195.120.217.242");
-		long finish = System.currentTimeMillis();
-		System.out.println("Elapsed time Geo service: " + (finish - start));
-		System.out.println(geo.getJsonInfo());
-	}
 }

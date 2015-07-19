@@ -19,10 +19,19 @@ import java.util.Map;
 import java.util.Set;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Response;
 
+/**
+ * 
+ * @author Gianluca Colaianni
+ * Jedis implementation for a Redis DAO.
+ *
+ */
 public class DAOJedis extends Base implements DAOInterface{
+	
+	private static JedisPool pool;
 
 	private Jedis conn;
 	
@@ -32,9 +41,18 @@ public class DAOJedis extends Base implements DAOInterface{
 
 	private final static String CLICKS_LIST = "CLICKS_LIST:";
 
-	public DAOJedis(Jedis jedisConn) {
+	/**
+	 * Default constructor.
+	 * Get the {@link Jedis} instance from a {@link JedisPool} connection pool. 
+	 */
+	public DAOJedis() {
 		super();
-		conn = jedisConn;
+		try {
+			conn = getIstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			error(e, loggingId, "FATAL ERROR: EXCEPTION DURING JEDIS POOL INSTANTIATION!!");
+		}
 		utility = new Utility();
 	}
 
@@ -51,6 +69,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return !isOk;
 	}
 
+	@Override
 	public DAOResponse newUrl(String key, String originalUrl, Date timestamp) {
 		DAOResponse result = new DAOResponse();
 		DAOResponseCode resultCode = DAOResponseCode.NOT_INSERTED;
@@ -67,6 +86,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 
+	@Override
 	public DAOResponse getOrigin(String url, String ip, String userAgent,
 			Date timestamp) {
 		DAOResponse result = new DAOResponse();
@@ -81,7 +101,6 @@ public class DAOJedis extends Base implements DAOInterface{
 			p.multi(); // start a transaction
 			Map<String, String> clickMap = new HashMap<String, String>();
 			String stringTimestamp = utility.dateToString(timestamp);
-			System.out.println("Click timestamp: " + stringTimestamp);
 			clickMap.put(Keys.TIMESTAMP, stringTimestamp);
 			clickMap.put(Keys.USER_AGENT, userAgent);
 			clickMap.put(Keys.IP, ip);
@@ -115,18 +134,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 
-	/**
-	 * Retrieve statistics for the specified url with (to - from) related
-	 * clicks.
-	 * 
-	 * @param url
-	 *            the short-url.
-	 * @param from
-	 *            the required start click.
-	 * @param to
-	 *            the required end click.
-	 * @return a {@link DAOResponse} with the statistics.
-	 */
+	@Override
 	public DAOResponse getStatistics(String url, int from, int to) {
 		DAOResponse result = new DAOResponse();
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
@@ -150,6 +158,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 	
+	@Override
 	public DAOResponse getStatisticsIpUserAgent(String url, int from, int to, String ip, String userAgent) {
 		DAOResponse result = new DAOResponse();
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
@@ -179,6 +188,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 	
+	@Override
 	public DAOResponse getStatisticsIp(String url, int from, int to, String ip) {
 		DAOResponse result = new DAOResponse();
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
@@ -207,6 +217,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 	
+	@Override
 	public DAOResponse getStatisticsUserAgent(String url, int from, int to, String userAgent) {
 		DAOResponse result = new DAOResponse();
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
@@ -234,6 +245,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 
+	@Override
 	public DAOResponse getStatisticsDate(String url, int from, int to,
 			Date dateFrom, Date dateTo) {
 		DAOResponse result = new DAOResponse();
@@ -260,6 +272,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 	
+	@Override
 	public DAOResponse getStatisticsDateIpUserAgent(String url, int from, int to, Date dateFrom, Date dateTo, String ip, String userAgent) {
 		DAOResponse result = new DAOResponse();
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
@@ -293,6 +306,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 	
+	@Override
 	public DAOResponse getStatisticsDateIp(String url, int from, int to, Date dateFrom, Date dateTo, String ip) {
 		DAOResponse result = new DAOResponse();
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
@@ -322,6 +336,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		return result;
 	}
 	
+	@Override
 	public DAOResponse getStatisticsDateUserAgent(String url, int from, int to, Date dateFrom, Date dateTo, String userAgent) {
 		DAOResponse result = new DAOResponse();
 		result.setResultCode(DAOResponseCode.NOT_MAPPED);
@@ -409,6 +424,24 @@ public class DAOJedis extends Base implements DAOInterface{
 	public void deleteKeys(String... keys) {
 		// TODO Auto-generated method stub
 		conn.del(keys);
+	}
+	
+	/**
+	 * Get the {@link Jedis} instance from a {@link JedisPool}.
+	 * In this way, the connections management is left to the API, that reuse the old unused connection.
+	 * @return a {@link Jedis} instance.
+	 * @throws Exception
+	 */
+	private static Jedis getIstance() throws Exception{
+		if (pool == null) {
+			try {
+				pool = new JedisPool();
+			} catch(Exception e) {
+				
+				throw e;
+			}
+		}
+		return pool.getResource();
 	}
 	
 }

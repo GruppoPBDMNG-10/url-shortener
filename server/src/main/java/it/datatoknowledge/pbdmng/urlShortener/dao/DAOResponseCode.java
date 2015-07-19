@@ -1,5 +1,10 @@
 package it.datatoknowledge.pbdmng.urlShortener.dao;
 
+/**
+ * 
+ * @author Gianluca Colaianni
+ * Possible response code of DAO process.
+ */
 public enum DAOResponseCode {
 
 	NOT_INSERTED(-1),

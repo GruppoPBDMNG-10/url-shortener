@@ -2,35 +2,26 @@ package it.datatoknowledge.pbdmng.urlShortener.dao;
 
 import it.datatoknowledge.pbdmng.urlShortener.dao.jedis.DAOJedis;
 import it.datatoknowledge.pbdmng.urlShortener.logic.Base;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
+/**
+ * 
+ * @author Gianluca Colaianni
+ * It is responsible to get the single DAO's implementation.
+ *
+ */
 public class DAOFactory extends Base{
-
-	private static DAOFactory istance;
-	private static JedisPool pool;
 	
-	private DAOFactory() {
-		super();
-		pool = new JedisPool();
-	}
-	
+	/**
+	 * Get a specific {@link DAOInterface} implementation.
+	 * @param impl the desired {@link DAOImplementation}.
+	 * @return a valid {@link DAOInterface} istance.
+	 */
 	public static DAOInterface getIstance(DAOImplementation impl) {
 		DAOInterface result = null;
-		if (istance == null) {
-			istance = new DAOFactory();
-		}
 		
 		switch (impl) {
 		case JEDIS:
-			Jedis jedis = null;
-			try {
-				jedis = pool.getResource();
-			} catch (Exception e) {
-				// TODO: handle exception
-				istance.error(e, istance.loggingId, "FATAL ERROR: EXCEPTION DURING JEDIS POOL INSTANTIATION!!");
-			}
-			result = new DAOJedis(jedis);
+			result = new DAOJedis();
 			break;
 
 		default:

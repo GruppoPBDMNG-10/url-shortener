@@ -110,6 +110,9 @@ public abstract class Base {
 				});
 	}
 	
+	/**
+	 * This is a method to test the application.
+	 */
 	private void populateDB() {
 		String url = "test";
 		String[] ips = {

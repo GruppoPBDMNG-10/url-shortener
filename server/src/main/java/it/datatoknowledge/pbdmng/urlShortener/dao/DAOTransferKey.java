@@ -1,5 +1,11 @@
 package it.datatoknowledge.pbdmng.urlShortener.dao;
 
+/**
+ * 
+ * @author Gianluca Colainni
+ * Contains all key for DAO response object 
+ *
+ */
 public class DAOTransferKey {
 	
 	public final static String CLICKS = "clicks";
