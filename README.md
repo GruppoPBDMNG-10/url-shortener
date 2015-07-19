@@ -32,7 +32,7 @@ Open a web browser and digit `http://localhost:8080`
 ## API Server
 1. Create new tiny url 
 
-	**[POST]** `http://localhost:4567/tiny
+	**[POST]** `http://localhost:4567/tiny`
 	
   `{"url" : "www.example.it",	"custom" : "example"}`
 
@@ -50,6 +50,12 @@ Open a web browser and digit `http://localhost:8080`
 	* `to` - filters the statistics up to the ith click
 	* `dateTo` - filters the statistics from the date entered
 	* `dateFrom` - filters the statistics up to the date entered
+
+## Configuration
+The config file is situated in the folder `server/userTemp/conf`.
+
+## Logging
+The log files are situated in the folder `log`, the actual log file is situated in the sub folder `log/active`.
 
 ## Contributors
 
