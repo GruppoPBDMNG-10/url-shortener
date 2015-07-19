@@ -11,7 +11,15 @@ import spark.Request;
  */
 public interface CommonService {
 
+	/**
+	 * Process a client request.
+	 * @param clientRequest - client http request
+	 */
 	public String process(Request clientRequest);
+	
+	/**
+	 * Exposes the API services.
+	 */
 	public void exposeServices();
 	
 }

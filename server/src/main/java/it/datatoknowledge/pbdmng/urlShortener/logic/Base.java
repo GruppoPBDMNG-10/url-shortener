@@ -14,6 +14,11 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Abstract class Base, collects all common attribute and method of services calsses.
+ * @author gaetano
+ *
+ */
 public abstract class Base {
 
 	protected Logger logger;

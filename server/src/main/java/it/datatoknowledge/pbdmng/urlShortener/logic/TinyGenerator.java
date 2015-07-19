@@ -9,6 +9,11 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
+/**
+ * Tiny generator.
+ * @author gaetano
+ *
+ */
 public class TinyGenerator extends Base {
 	
 	private final static String HASH_ALORITHM = "SHA-512";
@@ -21,6 +26,11 @@ public class TinyGenerator extends Base {
 		super();
 	}
 
+	/**
+	 * Calculate a short.
+	 * @param url - long url
+	 * @return tinyUrl
+	 */
 	public String getTiny(String url) {
 		String result = null;
 		if (url != null) {

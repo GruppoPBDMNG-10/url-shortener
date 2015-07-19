@@ -10,6 +10,11 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.Date;
 
+/**
+ * Utility class.
+ * @author gaetano
+ *
+ */
 public class Utility extends Base{
 
 	public Utility() {
@@ -17,6 +22,9 @@ public class Utility extends Base{
 		super();
 	}
 	
+	/**
+	 * Convert one date to string.
+	 */
 	public String dateToString(Date date) {
 		String result = null;
 		try {
@@ -29,6 +37,9 @@ public class Utility extends Base{
 		return result;
 	}
 	
+	/**
+	 * Convert one string to Date.
+	 */
 	public Date stringToDate(String date) {
 		Date result = null;
 		try {

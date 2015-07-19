@@ -1,5 +1,10 @@
 package it.datatoknowledge.pbdmng.urlShortener.utils;
 
+/**
+ * Wrap the system constants.
+ * @author gaetano
+ *
+ */
 public class Constants {
 
 	public final static String DOMAIN = "http://localhost:4567/";

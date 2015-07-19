@@ -8,6 +8,11 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Application main class.
+ * @author gaetano
+ *
+ */
 public class Starter extends Base {
 
 	public Starter() {

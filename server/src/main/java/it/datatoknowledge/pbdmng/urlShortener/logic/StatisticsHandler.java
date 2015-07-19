@@ -26,6 +26,11 @@ import java.util.Map;
 
 import spark.Request;
 
+/**
+ * Statistics handler.
+ * @author gaetano
+ *
+ */
 public class StatisticsHandler extends Base implements CommonService {
 
 	private final static String TINY = "tiny";

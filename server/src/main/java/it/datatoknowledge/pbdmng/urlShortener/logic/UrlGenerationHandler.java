@@ -24,6 +24,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import spark.Request;
 
 /**
+ * Handler of tiny generator.
  * @author Gianluca
  *
  */

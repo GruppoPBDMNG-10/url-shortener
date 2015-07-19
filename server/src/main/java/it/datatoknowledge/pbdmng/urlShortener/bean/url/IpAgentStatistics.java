@@ -5,6 +5,7 @@ package it.datatoknowledge.pbdmng.urlShortener.bean.url;
 
 /**
  * @author Gianluca
+ * Contains information about a click filter by userAgent to a short url.
  *
  */
 public class IpAgentStatistics extends AgentStatistics {

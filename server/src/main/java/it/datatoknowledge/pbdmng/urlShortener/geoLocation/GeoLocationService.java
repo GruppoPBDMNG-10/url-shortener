@@ -22,11 +22,17 @@ import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.Postal;
 import com.maxmind.geoip2.record.Subdivision;
 
+/**
+ * Provides information about click geoLocation. 
+ * @author gaetano
+ *
+ *
+ */
 public class GeoLocationService extends Base{
 	
 	private static DatabaseReader reader;
 	private String jsonInfo;
-
+	
 	public GeoLocationService(String ipAddress) {
 		// TODO Auto-generated constructor stub
 		super();
@@ -42,6 +48,9 @@ public class GeoLocationService extends Base{
 		}
 	}
 	
+	/**
+	 * Provide the location of one ip addresse.
+	 */
 	private String getLocation(String ipAddressString) {
 		String result = null;
 		try {

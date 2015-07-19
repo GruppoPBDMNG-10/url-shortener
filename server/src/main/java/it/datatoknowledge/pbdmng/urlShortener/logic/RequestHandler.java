@@ -15,14 +15,12 @@ import java.util.Date;
 import spark.Request;
 
 /**
+ * Handler of http request.
  * @author Gianluca
  *
  */
 public class RequestHandler extends Base implements CommonService{
 
-	/**
-	 * 
-	 */
 	public RequestHandler() {
 		// TODO Auto-generated constructor stub
 		super();

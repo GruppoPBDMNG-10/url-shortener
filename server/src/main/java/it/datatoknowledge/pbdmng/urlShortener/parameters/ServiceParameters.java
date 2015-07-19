@@ -47,6 +47,9 @@ public class ServiceParameters {
 		
 	}
 	
+	/**
+	 * Return the istance of ServiceParameters.
+	 */
 	public static ServiceParameters getIstance() {
 		if (serviceParameters == null) {
 			serviceParameters = new ServiceParameters();
@@ -56,19 +59,35 @@ public class ServiceParameters {
 		return serviceParameters;
 	}
 	
+	/**
+	 * Check the istance state.
+	 * @return true - if the istance is already created.
+	 */
 	private boolean isAvialable() {
 		return isAvailable;
 	}
 
+	/**
+	 * Provides the value of properties.
+	 * @return value - the value of a specified property.
+	 */
 	public String getValue(String key, String defaultValue) {
 		return properties.getProperty(key, defaultValue);
 	}
 	
+	/**
+	 * Provides the value of properties.
+	 * @return value - the value of a specified property.
+	 */
 	public boolean getValue(String key, boolean defaultValue) {
 		String value = getValue(key, String.valueOf(defaultValue));
 		return (Arrays.asList(TRUE).contains(value));
 	}
-	
+
+	/**
+	 * Provides the value of properties.
+	 * @return value - the value of a specified property.
+	 */
 	public LinkedHashMap<String, Object> getValue(String key, LinkedHashMap<String, Object> defaultValue) {
 		String values = properties.getProperty(key);
 		LinkedHashMap<String, Object> result = null;

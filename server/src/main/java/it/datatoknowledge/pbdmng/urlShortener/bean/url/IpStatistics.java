@@ -1,6 +1,11 @@
 package it.datatoknowledge.pbdmng.urlShortener.bean.url;
 
-
+/**
+ * 
+ * @author gaetano
+ * Contains information about a click filter by il to a short url.
+ *
+ */
 public class IpStatistics extends BaseStatistics{
 
 	private String ip;

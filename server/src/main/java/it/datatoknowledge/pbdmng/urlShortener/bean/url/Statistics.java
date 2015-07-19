@@ -9,6 +9,7 @@ import java.util.Date;
 
 /**
  * @author Gianluca
+ * Contains informations about short url statistics.
  *
  */
 public class Statistics extends BaseStatistics{
