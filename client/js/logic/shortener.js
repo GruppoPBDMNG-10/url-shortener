@@ -23,6 +23,11 @@ angular.module('logic')
 	            var url = 'http://localhost:4567/statistics?tiny='+ data;
 	            $http.get(url).success(callback).error(callback);
 	        }
+	        
+	        this.browserStatistics = function(tiny, browser, callback) {
+	            var url = 'http://localhost:4567/statistics?tiny='+ tiny+'&userAgent='+browser;
+	            $http.get(url).success(callback).error(callback);
+	        }
         }
     ]
 );

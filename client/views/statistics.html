@@ -23,7 +23,7 @@
 
 	<div class="col-lg-9 col-md-9 col-sm-12">
 		<div ng-show="urlDetails.statistics.clicks" class="panel panel-default">
-			<div class="panel-heading">Clicks</div>
+			<div class="panel-heading">Clicks - Total: {{urlDetails.statistics.numClicks}}</div>
 			<div class="panel-body">
 				<table class="table table-striped">
 					<thead>
@@ -46,7 +46,7 @@
 	</div>
 	
 	<div class="col-lg-3 col-md-3 col-sm-12 ">
-		<div class="panel panel-default">
+		<!--div class="panel panel-default">
 			<div class="panel-heading">Browser</div>
 			<div class="panel-body">
 				<div class="chart-container">
@@ -55,12 +55,12 @@
 						labels="labels"></canvas>
 				</div>
 			</div>
-		</div>
-		<div class="panel panel-default">
+		</div-->
+		<div ng-show="urlDetails.QRCode" class="panel panel-default">
 			<div class="panel-heading">QRCode</div>
 			<div class="panel-body">
 				<div class="chart-container">
-					<div ng-show="urlDetails.QRCode" class="text-center">
+					<div class="text-center">
 					      <img src="{{urlDetails.QRCode}}" alt="QRCode" />
 					</div>
 				</div>

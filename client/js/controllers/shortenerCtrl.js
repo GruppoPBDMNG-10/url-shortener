@@ -13,16 +13,16 @@ angular.module('shortenerCtrl', [])
      */
     $scope.customUrlRegex = /^([0-9a-zA-Z-]{0,30})$/;
     
-    /**
-     * Object urlDetails.
-     */
-    $scope.urlDetails = {
-      'url' : 'http://www.facebook.it',
-      'custom' : 'facebook',
-      'urlTiny' : 'http://localhost:5467/facebook',
-      'thumb' : 'https://api.thumbalizr.com/?url=www.facebook.it&width=250',
-      'QRCode' : 'http://www.qrstuff.com/images/default_qrcode.png'
-    }
+//    /**
+//     * Object urlDetails.
+//     */
+//    $scope.urlDetails = {
+//      'url' : 'http://www.facebook.it',
+//      'custom' : 'facebook',
+//      'urlTiny' : 'http://localhost:5467/facebook',
+//      'thumb' : 'https://api.thumbalizr.com/?url=www.facebook.it&width=250',
+//      'QRCode' : 'http://www.qrstuff.com/images/default_qrcode.png'
+//    }
     
     /**
      * checkUrl function add http protocol if it is omitted.
@@ -40,7 +40,7 @@ angular.module('shortenerCtrl', [])
      */
     var callback = function(response){
     	if(response){
-    		if(response.result.returnCode = '0'){
+    		if(response.result.returnCode == '0'){
     			$scope.urlDetails.url = response.url;
     			$scope.urlDetails.custom = response.custom;
     			$scope.urlDetails.urlTiny = response.urlTiny;
