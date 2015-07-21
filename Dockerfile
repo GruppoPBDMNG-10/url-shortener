@@ -59,6 +59,8 @@ RUN touch start.sh && \
 	echo '/usr/lib/jvm/java-8-oracle/bin/java -jar code/target/url-shortener-1.0.jar' >> start.sh && \
 	chmod 777 start.sh	
 
+# Creates images folder
+RUN mkdir /images
 # 80=Apache, 4567=java, 6379=redis-server
 EXPOSE 80 4567 6379
 
