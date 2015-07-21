@@ -17,10 +17,11 @@ angular.module('shortenerCtrl', [])
      * Object urlDetails.
      */
     $scope.urlDetails = {
-      'url' : '',
-      'custom' : '',
-      'urlTiny' : '',
-      'thumb' : ''
+      'url' : 'http://www.facebook.it',
+      'custom' : 'facebook',
+      'urlTiny' : 'http://localhost:5467/facebook',
+      'thumb' : 'https://api.thumbalizr.com/?url=www.facebook.it&width=250',
+      'QRCode' : 'http://www.qrstuff.com/images/default_qrcode.png'
     }
     
     /**
@@ -43,6 +44,7 @@ angular.module('shortenerCtrl', [])
     			$scope.urlDetails.url = response.url;
     			$scope.urlDetails.custom = response.custom;
     			$scope.urlDetails.urlTiny = response.urlTiny;
+    			$scope.urlDetails.QRCode = response.QRCode;
     			$scope.urlDetails.thumb = 'https://api.thumbalizr.com/?url='+ $scope.urlDetails.url +'&width=250';
     		} else if(response.result.returnCode = '-2') {
     			alert('Custom non disponibile!');
