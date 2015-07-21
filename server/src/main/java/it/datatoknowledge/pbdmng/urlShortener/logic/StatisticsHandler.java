@@ -85,6 +85,7 @@ public class StatisticsHandler extends Base implements CommonService {
 		String tiny = clientRequest.queryParams(TINY);
 		if (tiny != null) {
 			response.setUrlTiny(tiny);
+			setQrLink(response, tiny);
 			int defaultTo = Integer.valueOf(
 					serviceParameters.getValue(Parameters.TO_VALUE_STATISTICS,
 							Parameters.DEFAULT_TO_VALUE_STATISTICS)).intValue();

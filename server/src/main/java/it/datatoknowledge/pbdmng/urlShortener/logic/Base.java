@@ -2,6 +2,7 @@ package it.datatoknowledge.pbdmng.urlShortener.logic;
 
 import static spark.Spark.before;
 import static spark.Spark.options;
+import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlResponse;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
@@ -9,6 +10,9 @@ import it.datatoknowledge.pbdmng.urlShortener.parameters.ServiceParameters;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.file.InvalidPathException;
 import java.util.Date;
 import java.util.Random;
 
@@ -157,5 +161,25 @@ public abstract class Base {
 		}
 		
 		info(loggingId, "Tiny url added:", tiny);
+	}
+	
+	/**
+	 * Set the reference to QRCode image link into response.
+	 * @param response
+	 * @param tiny
+	 */
+	protected void setQrLink(UrlResponse response, String tiny) {
+		StringBuffer path = new StringBuffer(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
+		path.append(tiny);
+		try {
+			String qrCodePath = QRCodeGenerator.createQRCode(tiny, path.toString());
+			StringBuffer bufferImage = new StringBuffer(Constants.DOMAIN.substring(BigInteger.ZERO.intValue(), Constants.DOMAIN.length() - 1));
+			bufferImage.append(qrCodePath);
+			response.setQRCode(bufferImage.toString());
+			info(loggingId, "QrCode correctly generated at path:", qrCodePath, ". It's accessible from:", bufferImage);
+		} catch (InvalidPathException | NullPointerException | IOException e) {
+			// TODO Auto-generated catch block
+			error(loggingId, e, "Impossible generate QRCode for short url", tiny);
+		}
 	}
 }

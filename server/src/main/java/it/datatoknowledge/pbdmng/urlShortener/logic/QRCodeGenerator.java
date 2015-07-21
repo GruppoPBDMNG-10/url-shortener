@@ -13,10 +13,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.EnumSet;
 
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
+
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 /**
  * 
