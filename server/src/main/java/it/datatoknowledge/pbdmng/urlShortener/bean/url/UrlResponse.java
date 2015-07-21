@@ -8,6 +8,8 @@ public class UrlResponse extends BaseResponse{
 	
 	private String url;
 	
+	private String QRCode;
+	
 	private Statistics statistics;
 
 	public UrlResponse() {
@@ -56,7 +58,21 @@ public class UrlResponse extends BaseResponse{
 	public void setStatistics(Statistics statistics) {
 		this.statistics = statistics;
 	}
-	
-	
+
+	/**
+	 * Return qRCode value or reference.
+	 * @return qRCode value or reference.
+	 */
+	public String getQRCode() {
+		return QRCode;
+	}
+
+	/**
+	 * Set qRCode value or reference.
+	 * @param qRCode Value to set.
+	 */
+	public void setQRCode(String qRCode) {
+		QRCode = qRCode;
+	}
 
 }

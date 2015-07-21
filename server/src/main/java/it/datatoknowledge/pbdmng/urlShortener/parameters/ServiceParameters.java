@@ -37,7 +37,7 @@ public class ServiceParameters {
 		// TODO Auto-generated constructor stub
 		properties = new Properties();
 		try {
-			StringBuffer filePath = new StringBuffer("/userTemp/conf/conf.conf");
+			StringBuffer filePath = new StringBuffer("C://user-temp/conf/conf.conf");
 			properties.load(new FileInputStream(filePath.toString()));
 			isAvailable = true;
 		} catch (IOException e) {
@@ -92,9 +92,9 @@ public class ServiceParameters {
 		String values = properties.getProperty(key);
 		LinkedHashMap<String, Object> result = null;
 		if (values != null) {
-			String[] properties = values.split(Constants.COMMA);
+			String[] propertyArray = values.split(Constants.COMMA);
 			result = new LinkedHashMap<String, Object>();
-			for (String s : properties) {
+			for (String s : propertyArray) {
 				String[] mapping = s.split(Constants.COLON);
 				result.put(mapping[0], mapping[1]);
 			}

@@ -17,6 +17,9 @@ import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.file.InvalidPathException;
 import java.util.Date;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -30,7 +33,7 @@ import spark.Request;
  */
 public class UrlGenerationHandler extends Base implements CommonService {
 	
-	private final static String[] INVALID_CUSTOM_SYMBOLS = {"?", "&", "=", Constants.BLANK, "/", "\\", ".", "%"};
+	private final static String[] INVALID_CUSTOM_SYMBOLS = {"?", "&", "=", Constants.BLANK, "/", "\\", Constants.DOT, "%"};
 
 	/**
 	 * 
@@ -61,7 +64,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 		long start = System.currentTimeMillis();
 		UrlRequest request = (UrlRequest) JsonManager.parseJson(clientRequest.body(),
 				UrlRequest.class);
-
+		
 		UrlResponse urlResponse = new UrlResponse();
 		Result result = new Result();
 
@@ -110,6 +113,16 @@ public class UrlGenerationHandler extends Base implements CommonService {
 					buffer.append(tiny);
 					urlResponse.setUrlTiny(buffer.toString());
 					urlResponse.setUrl(originalUrl);
+					StringBuffer path = new StringBuffer(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
+					try {
+						String qrCodePath = QRCodeGenerator.createQRCode(tiny, path.toString());
+						StringBuffer bufferImage = new StringBuffer(Constants.DOMAIN.substring(BigInteger.ZERO.intValue(), Constants.DOMAIN.length() - 1));
+						bufferImage.append(qrCodePath);
+						urlResponse.setQRCode(bufferImage.toString());
+					} catch (InvalidPathException | NullPointerException | IOException e) {
+						// TODO Auto-generated catch block
+						error(loggingId, e, "Impossible generate QRCode for short url", tiny);
+					}
 				} else if (isCustom) {
 					result.setDescription(Result.DUPLICATED_ERROR_DESCRIPTION);
 					result.setReturnCode(Result.DUPLICATED_ERROR_RETURN_CODE);
@@ -131,6 +144,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 	@Override
 	public void exposeServices() {
 		// TODO Auto-generated method stub
+		info(loggingId,"Exposed UrlGenerationHandler");
 		String route = serviceParameters.getValue(Parameters.ROUTE_TINY, Parameters.DEFAULT_ROUTE_TINY);
 		
 		post(route, "application/json", (req, res) -> {

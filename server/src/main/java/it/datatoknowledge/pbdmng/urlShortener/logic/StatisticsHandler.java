@@ -271,6 +271,7 @@ public class StatisticsHandler extends Base implements CommonService {
 	@Override
 	public void exposeServices() {
 		// TODO Auto-generated method stub
+		info(loggingId,"Exposed StatisticsHandler");
 		String route = serviceParameters.getValue(Parameters.ROUTE_STATISTICS,
 				Parameters.DEFAULT_ROUTE_STATISTICS);
 		get(route, (req, res) -> {

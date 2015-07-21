@@ -71,4 +71,25 @@ public class Parameters {
 	 * Value for testing mode.
 	 */
 	public final static boolean DEFAULT_IS_TESTING = true;
+	
+	/**
+	 * String for images path.
+	 */
+	public final static String IMAGES_PATH = "images_path";
+	
+	/**
+	 * Default value for images path.
+	 */
+	public final static String DEFAULT_IMAGES_PATH = "/images/";
+	
+	/**
+	 * String for images route.
+	 */
+	public final static String ROUTE_IMAGES = "route_images";
+	
+	/**
+	 * Default value for images route.
+	 */
+	public final static String DEFAULT_ROUTE_IMAGES  = DEFAULT_IMAGES_PATH + ":image";
+	
 }

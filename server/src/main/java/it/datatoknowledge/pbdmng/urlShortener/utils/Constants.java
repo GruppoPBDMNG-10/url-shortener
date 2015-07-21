@@ -13,6 +13,8 @@ public class Constants {
 	
 	public final static String COLON = ":";
 	
+	public final static String DOT = ".";
+	
 	public final static String DEFAULT_ENCODING = "UTF-8";
 	
 	public final static String BLANK = " ";

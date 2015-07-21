@@ -1,12 +1,21 @@
 package it.datatoknowledge.pbdmng.urlShortener.servlet;
 
+import static spark.SparkBase.staticFileLocation;
+import static spark.Spark.get;
 import it.datatoknowledge.pbdmng.urlShortener.logic.Base;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import spark.utils.ResourceUtils;
 
 /**
  * Application main class.
@@ -23,6 +32,7 @@ public class Starter extends Base {
 		// TODO Auto-generated method stub
 		Starter starter = new Starter();
 		starter.setUp();
+		
 		LinkedHashMap<String, Object> availableServices = new LinkedHashMap<String, Object>();
 		availableServices = serviceParameters.getValue(
 				Parameters.AVAILABLE_SERVICES, availableServices);
@@ -63,6 +73,8 @@ public class Starter extends Base {
 				starter.error(starter.loggingId, e.getMessage());
 			}
 		}
+		
+		
 	}
 
 }
