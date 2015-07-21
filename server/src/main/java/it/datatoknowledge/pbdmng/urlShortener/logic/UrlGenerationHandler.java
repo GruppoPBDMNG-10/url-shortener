@@ -114,6 +114,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 					urlResponse.setUrlTiny(buffer.toString());
 					urlResponse.setUrl(originalUrl);
 					StringBuffer path = new StringBuffer(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
+					path.append(tiny);
 					try {
 						String qrCodePath = QRCodeGenerator.createQRCode(tiny, path.toString());
 						StringBuffer bufferImage = new StringBuffer(Constants.DOMAIN.substring(BigInteger.ZERO.intValue(), Constants.DOMAIN.length() - 1));
