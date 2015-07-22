@@ -48,12 +48,12 @@ public class Result {
 	public final static String NOT_FOUND_DESCRIPTION = "Required tiny not mapped";
 	
 	/**
-	 * Tiny url not mapped.
+	 * Custom url not valid.
 	 */
 	public final static int NOT_VALID_CUSTOM = -4;
 	
 	/**
-	 * Tiny url not mapped.
+	 * Custom url not valid.
 	 */
 	public final static String NOT_VALID_CUSTOM_DESCRIPTION = "Required custom url not valid";
 	

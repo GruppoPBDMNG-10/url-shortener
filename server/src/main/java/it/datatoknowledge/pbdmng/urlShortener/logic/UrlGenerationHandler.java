@@ -17,9 +17,13 @@ import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.InvalidPathException;
 import java.util.Collections;
 import java.util.Date;
+
+import net.glxn.qrgen.core.image.ImageType;
 
 import org.apache.commons.validator.routines.UrlValidator;
 
@@ -116,13 +120,14 @@ public class UrlGenerationHandler extends Base implements CommonService {
 					buffer.append(tiny);
 					urlResponse.setUrlTiny(buffer.toString());
 					urlResponse.setUrl(originalUrl);
-					setQrLink(urlResponse, buffer.toString());
+					setQrLink(urlResponse, tiny);
 				} else if (isCustom) {
 					if (isValidCustom) {
 						result.setDescription(Result.DUPLICATED_ERROR_DESCRIPTION);
 						result.setReturnCode(Result.DUPLICATED_ERROR_RETURN_CODE);
 					} else {
-						
+						result.setDescription(Result.NOT_VALID_CUSTOM_DESCRIPTION);
+						result.setReturnCode(Result.NOT_VALID_CUSTOM);
 					}
 				}
 				response = JsonManager.buildJson(urlResponse);
@@ -168,6 +173,30 @@ public class UrlGenerationHandler extends Base implements CommonService {
 			isValid = Collections.binarySearch(blackList, custom) < BigInteger.ZERO.intValue();
 		}
 		return isValid;
+	}
+	
+	/**
+	 * Set the reference to QRCode image link into response.
+	 * 
+	 * @param response
+	 * @param tiny
+	 */
+	private void setQrLink(UrlResponse response, String tiny) {
+		StringBuffer path = new StringBuffer(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
+		path.append(tiny);
+		path.append(Constants.DOT);
+		path.append(ImageType.PNG.toString());
+		String qrCodePath = null;
+		try {
+			StringBuffer buffer = new StringBuffer(Constants.DOMAIN);
+			buffer.append(tiny);
+			qrCodePath = QRCodeGenerator.createQRCode(buffer.toString(), path.toString());
+			response.setQRCode(getImagesUrl(tiny));
+			info(loggingId, "QrCode correctly generated at path:", qrCodePath);
+		} catch (InvalidPathException | NullPointerException | IOException e) {
+			// TODO Auto-generated catch block
+			error(loggingId, e, "Impossible generate QRCode for short url", tiny, "at filePath:", qrCodePath);
+		}
 	}
 
 }
