@@ -28,6 +28,7 @@ public abstract class Base {
 	protected Logger logger;
 	protected String loggingId;
 	protected static ServiceParameters serviceParameters;
+	private static boolean isTesting = false;
 
 	private final static String ACCESS_REQUEST_HEADERS = "Access-Control-Request-Headers";
 	private final static String ACCESS_ALLOW_HEADERS = "Access-Control-Allow-Headers";
@@ -46,21 +47,42 @@ public abstract class Base {
 	}
 
 	protected void info(Object... messages) {
-		logger.info(toLog(messages));
+		String message = toLog(messages);
+		logger.info(message);
+		if(isTesting) {
+			System.out.println("[INFO] " + message);
+		}
 	}
 
 	protected void error(Object... messages) {
-		logger.error(toLog(messages));
+		String message = toLog(messages);
+		logger.error(message);
+		if(isTesting) {
+			System.out.println("[ERROR] " + message);
+		}
 	}
 
 	protected void error(Throwable t, Object... messages) {
-		logger.error(toLog(messages), t);
+		String message = toLog(messages);
+		logger.error(message, t);
+		if(isTesting) {
+			System.out.println("[ERROR] " + message);
+		}
 	}
 
 	protected void debug(Object... messages) {
-		logger.debug(toLog(messages));
+		String message = toLog(messages);
+		logger.debug(message);
+		if(isTesting) {
+			System.out.println("[DEBUG] " + message);
+		}
 	}
 
+	/**
+	 * Transforms Object's array into log messages.
+	 * @param messages the array to transform
+	 * @return a {@link String} containing the message to log.
+	 */
 	private String toLog(Object... messages) {
 		StringBuffer buffer = new StringBuffer();
 		for (Object obj : messages) {
@@ -71,6 +93,9 @@ public abstract class Base {
 			}
 			buffer.append(Constants.BLANK);
 		}
+		if(isTesting) {
+			System.out.println(buffer.toString());
+		}
 		return buffer.toString();
 	}
 
@@ -79,7 +104,7 @@ public abstract class Base {
 	 */
 	protected void setUp() {
 		
-		boolean isTesting = serviceParameters.getValue(Parameters.IS_TESTING, Parameters.DEFAULT_IS_TESTING);
+		isTesting = serviceParameters.getValue(Parameters.IS_TESTING, Parameters.DEFAULT_IS_TESTING);
 		if (isTesting) {
 			populateDB();
 			info(loggingId, "Executed populateDB");

@@ -28,8 +28,8 @@ public class TinyGenerator extends Base {
 
 	/**
 	 * Calculate a short.
-	 * @param url - long url
-	 * @return tinyUrl
+	 * @param url - long url.
+	 * @return tinyUrl.
 	 */
 	public String getTiny(String url) {
 		String result = null;
@@ -55,10 +55,10 @@ public class TinyGenerator extends Base {
 
 				} catch (NoSuchAlgorithmException e) {
 					// TODO Auto-generated catch block
-					error(loggingId, " - Unknow hash algorithm.");
+					error(loggingId, e, " - Unknow hash algorithm.");
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
-					error(loggingId, " - Byte encoding not supported");
+					error(loggingId, e, " - Byte encoding not supported");
 				}
 			} else {
 				error(loggingId, "Url length not valid.");
