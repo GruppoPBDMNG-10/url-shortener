@@ -25,8 +25,8 @@ import redis.clients.jedis.Response;
 
 /**
  * 
- * @author Gianluca Colaianni
  * Jedis implementation for a Redis DAO.
+ * @author Gianluca Colaianni
  *
  */
 public class DAOJedis extends Base implements DAOInterface{
@@ -147,7 +147,7 @@ public class DAOJedis extends Base implements DAOInterface{
 				from, to);
 		p.sync();
 		System.out.println(map.get());
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -176,7 +176,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Set<String>> idClicksResponse = p.zrevrange(buffer.toString(),
 				from, to);
 		p.sync();
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -200,12 +200,11 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Long> totalClicks = p.zcard(buffer.toString());
 		buffer.append(Constants.COLON);
 		buffer.append(ip);
-		System.out.println("Get ip buffer: " + buffer);
 		Response<Long> ipTotalClicks = p.zcard(buffer.toString());
 		Response<Set<String>> idClicksResponse = p.zrevrange(buffer.toString(),
 				from, to);
 		p.sync();
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -233,7 +232,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Set<String>> idClicksResponse = p.zrevrange(buffer.toString(),
 				from, to);
 		p.sync();
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -261,7 +260,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Set<String>> idClicksResponse = p.zrevrangeByScore(
 				buffer.toString(), doubleDateFrom, doubleDateTo);
 		p.sync();
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -280,9 +279,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		StringBuffer buffer = new StringBuffer(CLICKS_LIST);
 		buffer.append(url);
 		double doubleDateFrom = Double.valueOf(utility.dateToString(dateFrom));
-		System.out.println(doubleDateFrom);
 		double doubleDateTo = Double.valueOf(utility.dateToString(dateTo));
-		System.out.println(doubleDateTo);
 		Pipeline p = conn.pipelined();
 		Response<Map<String, String>> map = p.hgetAll(url);
 		Response<Long> totalClicks = p.zcard(buffer.toString());
@@ -294,7 +291,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Set<String>> idClicksResponse = p.zrevrangeByScore(
 				buffer.toString(), doubleDateFrom, doubleDateTo);
 		p.sync();
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -324,7 +321,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Set<String>> idClicksResponse = p.zrevrangeByScore(
 				buffer.toString(), doubleDateFrom, doubleDateTo);
 		p.sync();
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -354,7 +351,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Set<String>> idClicksResponse = p.zrevrangeByScore(
 				buffer.toString(), doubleDateFrom, doubleDateTo);
 		p.sync();
-		if (map.get() != null) {
+		if (map.get() != null && !map.get().isEmpty()) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
 			HashMap<String, Object> response = new HashMap<String, Object>();
@@ -399,7 +396,6 @@ public class DAOJedis extends Base implements DAOInterface{
 		Iterator<String> it = idClicksResponse.get().iterator();
 		for (Response<Map<String, String>> clickResponse : clicksResponse) {
 			Map<String, String> click = clickResponse.get();
-			System.out.println("Click to set: " + click);
 			Map<String, Object> clickToSet = new HashMap<String, Object>();
 			clickToSet.put(Keys.ID, it.next());
 			for (Map.Entry<String, String> entry : click.entrySet()) {
@@ -407,7 +403,6 @@ public class DAOJedis extends Base implements DAOInterface{
 				Object valueToSet = null;
 				if (key.equals(Keys.TIMESTAMP)) {
 					String value = entry.getValue();
-					System.out.println(value);
 					valueToSet = utility.stringToDate(value);
 				} else if (key.equals(Keys.IP) || key.equals(Keys.USER_AGENT)) {
 					valueToSet = entry.getValue();
@@ -435,12 +430,7 @@ public class DAOJedis extends Base implements DAOInterface{
 	 */
 	private static Jedis getIstance() throws Exception{
 		if (pool == null) {
-			try {
-				pool = new JedisPool();
-			} catch(Exception e) {
-				
-				throw e;
-			}
+			pool = new JedisPool();
 		}
 		return pool.getResource();
 	}
