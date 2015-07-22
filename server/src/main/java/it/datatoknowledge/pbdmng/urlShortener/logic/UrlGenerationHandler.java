@@ -23,8 +23,6 @@ import java.nio.file.InvalidPathException;
 import java.util.Collections;
 import java.util.Date;
 
-import net.glxn.qrgen.core.image.ImageType;
-
 import org.apache.commons.validator.routines.UrlValidator;
 
 import spark.Request;
@@ -184,8 +182,6 @@ public class UrlGenerationHandler extends Base implements CommonService {
 	private void setQrLink(UrlResponse response, String tiny) {
 		StringBuffer path = new StringBuffer(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
 		path.append(tiny);
-		path.append(Constants.DOT);
-		path.append(ImageType.PNG.toString());
 		String qrCodePath = null;
 		try {
 			StringBuffer buffer = new StringBuffer(Constants.DOMAIN);
