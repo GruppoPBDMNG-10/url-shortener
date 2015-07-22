@@ -123,11 +123,18 @@ angular.module('statisticsCtrl', ['chart.js'])
      */
     var callback = function(response){
     	if(response){
-    		if(response.result.returnCode = '0'){
+    		switch(response.result.returnCode) {
+    	    case 0:
     			$scope.urlDetails = response;
+    			break;
+    	    case -3:
+        		alert('Tiny not available!');
+    			break;
+    	    default:
+        		alert('Generic Error!');
     		}
     	} else {
-    		alert('404 - Not found');
+    		alert('404 - Not found!');
     	}
     }
     

@@ -40,19 +40,25 @@ angular.module('shortenerCtrl', [])
      */
     var callback = function(response){
     	if(response){
-    		if(response.result.returnCode == '0'){
+    		switch(response.result.returnCode) {
+    	    case 0:
     			$scope.urlDetails.url = response.url;
     			$scope.urlDetails.custom = response.custom;
     			$scope.urlDetails.urlTiny = response.urlTiny;
     			$scope.urlDetails.QRCode = response.QRCode;
     			$scope.urlDetails.thumb = 'https://api.thumbalizr.com/?url='+ $scope.urlDetails.url +'&width=250';
-    		} else if(response.result.returnCode = '-2') {
-    			alert('Custom non disponibile!');
-    		} else {
-    			alert('Contenuto non valito');
+    	        break;
+    	    case -2:
+    			alert('Custom not available!');
+    	        break;
+    	    case -4:
+    			alert('Not valid custom!');
+    	        break;
+    	    default:
+        		alert('Generic Error!');
     		}
     	} else {
-    		alert('404 - Not found');
+    		alert('404 - Not found!');
     	}
     }
     
