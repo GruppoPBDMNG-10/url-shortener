@@ -85,7 +85,6 @@ public class StatisticsHandler extends Base implements CommonService {
 		String tiny = clientRequest.queryParams(TINY);
 		if (tiny != null) {
 			response.setUrlTiny(tiny);
-			setQrLink(response, tiny);
 			int defaultTo = Integer.valueOf(
 					serviceParameters.getValue(Parameters.TO_VALUE_STATISTICS,
 							Parameters.DEFAULT_TO_VALUE_STATISTICS)).intValue();
@@ -116,6 +115,7 @@ public class StatisticsHandler extends Base implements CommonService {
 			case OK:
 				resultResponse.setReturnCode(Result.OK_RETURN_CODE);
 				resultResponse.setDescription(Result.OK_DESCRIPTION);
+				response.setQRCode(getImagesUrl(tiny));
 				Map<String, Object> data = (Map<String, Object>) responseDao
 						.getResponse();
 				Map<String, String> urlShort = (Map<String, String>) data

@@ -2,7 +2,6 @@ package it.datatoknowledge.pbdmng.urlShortener.logic;
 
 import static spark.Spark.before;
 import static spark.Spark.options;
-import it.datatoknowledge.pbdmng.urlShortener.bean.url.UrlResponse;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOFactory;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOImplementation;
 import it.datatoknowledge.pbdmng.urlShortener.dao.DAOInterface;
@@ -21,13 +20,14 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import net.glxn.qrgen.core.image.ImageType;
 
 import org.apache.log4j.Logger;
 
@@ -185,25 +185,20 @@ public abstract class Base {
 		info(loggingId, "Tiny url added:", tiny);
 	}
 
+	
+	
 	/**
-	 * Set the reference to QRCode image link into response.
-	 * 
-	 * @param response
-	 * @param tiny
+	 * Return URL where QRCode image is available for the specified tiny.
+	 * @param tiny the tiny.
+	 * @return the URL to QRCode image.
 	 */
-	protected void setQrLink(UrlResponse response, String tiny) {
-		StringBuffer path = new StringBuffer(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
-		path.append(tiny);
-		try {
-			String qrCodePath = QRCodeGenerator.createQRCode(tiny, path.toString());
-			StringBuffer bufferImage = new StringBuffer(Constants.DOMAIN.substring(BigInteger.ZERO.intValue(), Constants.DOMAIN.length() - 1));
-			bufferImage.append(qrCodePath);
-			response.setQRCode(bufferImage.toString());
-			info(loggingId, "QrCode correctly generated at path:", qrCodePath, ". It's accessible from:", bufferImage);
-		} catch (InvalidPathException | NullPointerException | IOException e) {
-			// TODO Auto-generated catch block
-			error(loggingId, e, "Impossible generate QRCode for short url", tiny);
-		}
+	protected String getImagesUrl(String tiny) {
+		StringBuffer bufferImage = new StringBuffer(Constants.DOMAIN.substring(BigInteger.ZERO.intValue(), Constants.DOMAIN.length() - 1));
+		bufferImage.append(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
+		bufferImage.append(tiny);
+		bufferImage.append(Constants.DOT);
+		bufferImage.append(ImageType.PNG.toString());
+		return bufferImage.toString();
 	}
 
 	private void loadBlackList() {

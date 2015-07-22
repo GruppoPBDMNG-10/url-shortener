@@ -38,7 +38,7 @@ public class QRCodeGenerator extends Base {
 	 * @param filePath
 	 * @param width
 	 * @param height
-	 * @return
+	 * @return the generated file's path.
 	 * @throws IOException
 	 * @throws InvalidPathException
 	 * @throws NullPointerException

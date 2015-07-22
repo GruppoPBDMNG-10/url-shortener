@@ -17,7 +17,9 @@ import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.InvalidPathException;
 import java.util.Collections;
 import java.util.Date;
 
@@ -87,6 +89,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 				if (custom != null) {
 					isCustom = true;
 					if (isValidCustom(custom)) {
+						custom = custom.trim();
 						isValidCustom = true;
 						info(loggingId, "Desired custom:", custom);
 						isCustom = true;
@@ -116,13 +119,14 @@ public class UrlGenerationHandler extends Base implements CommonService {
 					buffer.append(tiny);
 					urlResponse.setUrlTiny(buffer.toString());
 					urlResponse.setUrl(originalUrl);
-					setQrLink(urlResponse, buffer.toString());
+					setQrLink(urlResponse, tiny);
 				} else if (isCustom) {
 					if (isValidCustom) {
 						result.setDescription(Result.DUPLICATED_ERROR_DESCRIPTION);
 						result.setReturnCode(Result.DUPLICATED_ERROR_RETURN_CODE);
 					} else {
-						
+						result.setDescription(Result.NOT_VALID_CUSTOM_DESCRIPTION);
+						result.setReturnCode(Result.NOT_VALID_CUSTOM);
 					}
 				}
 				response = JsonManager.buildJson(urlResponse);
@@ -161,13 +165,35 @@ public class UrlGenerationHandler extends Base implements CommonService {
 	 */
 	private boolean isValidCustom(String custom) {
 		boolean isValid = false;
-		if (custom != null && !custom.equals(Constants.EMPTY)) {
+		if (!custom.equals(Constants.EMPTY) && !custom.equals(Constants.BLANK)) {
 			for (String s : INVALID_CUSTOM_SYMBOLS) {
 				isValid =  (!custom.contains(s));
 			}
 			isValid = Collections.binarySearch(blackList, custom) < BigInteger.ZERO.intValue();
 		}
 		return isValid;
+	}
+	
+	/**
+	 * Set the reference to QRCode image link into response.
+	 * 
+	 * @param response
+	 * @param tiny
+	 */
+	private void setQrLink(UrlResponse response, String tiny) {
+		StringBuffer path = new StringBuffer(serviceParameters.getValue(Parameters.IMAGES_PATH, Parameters.DEFAULT_IMAGES_PATH));
+		path.append(tiny);
+		String qrCodePath = null;
+		try {
+			StringBuffer buffer = new StringBuffer(Constants.DOMAIN);
+			buffer.append(tiny);
+			qrCodePath = QRCodeGenerator.createQRCode(buffer.toString(), path.toString());
+			response.setQRCode(getImagesUrl(tiny));
+			info(loggingId, "QrCode correctly generated at path:", qrCodePath);
+		} catch (InvalidPathException | NullPointerException | IOException e) {
+			// TODO Auto-generated catch block
+			error(loggingId, e, "Impossible generate QRCode for short url", tiny, "at filePath:", qrCodePath);
+		}
 	}
 
 }
