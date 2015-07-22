@@ -21,9 +21,9 @@ url-shortener is a service that takes long URLs and squeezes them into fewer cha
 
 5. Map the the virtual machine's ports in VirtualBox
 
-  `AngularJS App port is 8080`
+  `AngularJS App - localhost:8080 map to the port 8080 of docker-machine`
 
-  `API server port is 4567`
+  `API server - localhost:4567 map to the port 4567 of docker-machine`
 
 ## Utilisation
 
