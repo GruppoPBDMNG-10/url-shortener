@@ -17,6 +17,8 @@ import it.datatoknowledge.pbdmng.urlShortener.json.JsonManager;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
+import java.math.BigInteger;
+import java.util.Collections;
 import java.util.Date;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -81,17 +83,21 @@ public class UrlGenerationHandler extends Base implements CommonService {
 				String tiny = null;
 				String custom = request.getCustom();
 				boolean isCustom = false;
-				if (isValidCustom(custom)) {
-					info(loggingId, "Desired custom:", custom);
+				boolean isValidCustom = false;
+				if (custom != null) {
 					isCustom = true;
-					responseDAO = dao.newUrl(custom, originalUrl, new Date());
-					tiny = custom;
+					if (isValidCustom(custom)) {
+						isValidCustom = true;
+						info(loggingId, "Desired custom:", custom);
+						isCustom = true;
+						responseDAO = dao.newUrl(custom, originalUrl, new Date());
+						tiny = custom;
+					} 
 				} else {
 					int cont = 0;
 					TinyGenerator gen = new TinyGenerator();
 					do {
 						tiny = gen.getTiny(originalUrl);
-						custom = null; //the second time that it is executed, it will provide a random tiny url
 						if (tiny != null) {
 							responseDAO = dao.newUrl(tiny, originalUrl, new Date());
 						}
@@ -112,8 +118,12 @@ public class UrlGenerationHandler extends Base implements CommonService {
 					urlResponse.setUrl(originalUrl);
 					setQrLink(urlResponse, buffer.toString());
 				} else if (isCustom) {
-					result.setDescription(Result.DUPLICATED_ERROR_DESCRIPTION);
-					result.setReturnCode(Result.DUPLICATED_ERROR_RETURN_CODE);
+					if (isValidCustom) {
+						result.setDescription(Result.DUPLICATED_ERROR_DESCRIPTION);
+						result.setReturnCode(Result.DUPLICATED_ERROR_RETURN_CODE);
+					} else {
+						
+					}
 				}
 				response = JsonManager.buildJson(urlResponse);
 			} else {
@@ -144,12 +154,18 @@ public class UrlGenerationHandler extends Base implements CommonService {
 		});
 	}
 	
+	/**
+	 * Check if the desired custom is valid and if it not contains bad words.
+	 * @param custom the custom to check.
+	 * @return true only if is a valid custom.
+	 */
 	private boolean isValidCustom(String custom) {
 		boolean isValid = false;
 		if (custom != null && !custom.equals(Constants.EMPTY)) {
 			for (String s : INVALID_CUSTOM_SYMBOLS) {
 				isValid =  (!custom.contains(s));
 			}
+			isValid = Collections.binarySearch(blackList, custom) < BigInteger.ZERO.intValue();
 		}
 		return isValid;
 	}

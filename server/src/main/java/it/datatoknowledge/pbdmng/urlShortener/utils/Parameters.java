@@ -60,7 +60,7 @@ public class Parameters {
 	/**
 	 * Default path of locations database.
 	 */
-	public final static String DEFAULT_GEO_LOCATION_FILE_PATH = "C://User_temp/location/GeoLite2-City.mmdb";
+	public final static String DEFAULT_GEO_LOCATION_FILE_PATH = "/UserTemp/location/GeoLite2-City.mmdb";
 	
 	/**
 	 * String for testing mode.
@@ -91,5 +91,13 @@ public class Parameters {
 	 * Default value for images route.
 	 */
 	public final static String DEFAULT_ROUTE_IMAGES  = DEFAULT_IMAGES_PATH + ":image";
+	
+	public final static String LANGUAGES_FOLDER = "languages_folder";
+	
+	public final static String DEFAULT_LANGUAGES_FOLDER = "/userTemp/languages";
+	
+	public final static String BAD_WORDS_PATH = "bad_words_path";
+	
+	public final static String DEFAULT_BAD_WORDS_PATH = "/userTemp/bad/badWords.csv";
 	
 }
