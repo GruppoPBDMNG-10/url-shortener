@@ -146,6 +146,7 @@ public class DAOJedis extends Base implements DAOInterface{
 		Response<Set<String>> idClicksResponse = p.zrevrange(buffer.toString(),
 				from, to);
 		p.sync();
+		System.out.println(map.get());
 		if (map.get() != null) {
 			result.setResultCode(DAOResponseCode.OK);
 			List<Map<String, Object>> clicks = getClicks(idClicksResponse, (to - from));
