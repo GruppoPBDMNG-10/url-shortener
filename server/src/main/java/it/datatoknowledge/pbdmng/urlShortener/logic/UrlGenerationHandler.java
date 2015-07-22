@@ -89,6 +89,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 				if (custom != null) {
 					isCustom = true;
 					if (isValidCustom(custom)) {
+						custom = custom.trim();
 						isValidCustom = true;
 						info(loggingId, "Desired custom:", custom);
 						isCustom = true;
@@ -164,7 +165,7 @@ public class UrlGenerationHandler extends Base implements CommonService {
 	 */
 	private boolean isValidCustom(String custom) {
 		boolean isValid = false;
-		if (custom != null && !custom.equals(Constants.EMPTY)) {
+		if (!custom.equals(Constants.EMPTY) && !custom.equals(Constants.BLANK)) {
 			for (String s : INVALID_CUSTOM_SYMBOLS) {
 				isValid =  (!custom.contains(s));
 			}
