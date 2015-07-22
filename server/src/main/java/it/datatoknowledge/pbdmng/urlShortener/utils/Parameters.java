@@ -92,12 +92,24 @@ public class Parameters {
 	 */
 	public final static String DEFAULT_ROUTE_IMAGES  = DEFAULT_IMAGES_PATH + ":image";
 	
+	/**
+	 * String for languages folder.
+	 */
 	public final static String LANGUAGES_FOLDER = "languages_folder";
 	
+	/**
+	 * Default value for languages folder.
+	 */
 	public final static String DEFAULT_LANGUAGES_FOLDER = "/userTemp/languages";
 	
+	/**
+	 * String for bad_words path.
+	 */
 	public final static String BAD_WORDS_PATH = "bad_words_path";
 	
+	/**
+	 * Default value for badWords file path.
+	 */
 	public final static String DEFAULT_BAD_WORDS_PATH = "/userTemp/bad/badWords.csv";
 	
 }
