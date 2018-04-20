@@ -1,0 +1,19 @@
+db:
+  container_name: db
+  image: redis:3
+  ports:
+    - "6379:6379"
+server:
+  container_name: server
+  build: server
+  ports:
+    - "4567:4567"
+  links:
+    - db
+client:
+  container_name: client
+  build: client
+  ports:
+    - "8080:80"
+  links:
+    - server

@@ -8,6 +8,7 @@ import it.datatoknowledge.pbdmng.urlShortener.geoLocation.GeoLocationService;
 import it.datatoknowledge.pbdmng.urlShortener.logic.Base;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Constants;
 import it.datatoknowledge.pbdmng.urlShortener.utils.Utility;
+import it.datatoknowledge.pbdmng.urlShortener.utils.Parameters;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -430,7 +431,7 @@ public class DAOJedis extends Base implements DAOInterface{
 	 */
 	private static Jedis getIstance() throws Exception{
 		if (pool == null) {
-			pool = new JedisPool();
+			pool = new JedisPool(serviceParameters.getValue(Parameters.DB_HOST_URL, Parameters.DEFAULT_DB_HOST_URL));
 		}
 		return pool.getResource();
 	}

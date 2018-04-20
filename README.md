@@ -7,25 +7,11 @@ url-shortener is a service that takes long URLs and squeezes them into fewer cha
 
   `git clone https://github.com/GruppoPBDMNG-10/url-shortener.git`
 
-2. Build the url-shortener image
+2. Deploy url-shortener
 
-  `docker build -t gruppopbdmng-10/url-shortener url-shortener`
+  `docker-compose up --build`
 
-3. Run url-shortener container
-
-  `docker run -d -p 8080:80 -p 4567:4567 --name url-shortener gruppopbdmng-10/url-shortener /start.sh`
-
-4. Start the server application
-
-  `docker exec -it url-shortener /start.sh`
-
-5. Map the the virtual machine's ports in VirtualBox
-
-  `AngularJS App - localhost:8080 map to the port 8080 of docker-machine`
-
-  `API server - localhost:4567 map to the port 4567 of docker-machine`
-
-## Utilisation
+## Utilization
 
 Open a web browser and digit `http://localhost:8080`
 

@@ -111,5 +111,15 @@ public class Parameters {
 	 * Default value for badWords file path.
 	 */
 	public final static String DEFAULT_BAD_WORDS_PATH = "/userTemp/bad/badWords.csv";
+
+	/**
+	 * Database host url.
+	 */
+	public final static String DB_HOST_URL = "db_host_url";
+
+	/**
+	 * Default database host url.
+	 */
+	public final static String DEFAULT_DB_HOST_URL = "";
 	
 }
